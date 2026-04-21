@@ -12,8 +12,13 @@ class PersonnelController extends Controller
     /**
      * @throws ConnectionException
      */
-    public function index() {
-        $response = Http::withToken(session('token'))->acceptJson()->get("http://host.docker.internal:81/api/admins/personnels");
+    public function index(Request $request) {
+        $query = array_filter([
+            'temps_connexion' => $request->temps_connexion,
+            'role' => $request->role,
+        ]);
+
+        $response = Http::withToken(session('token'))->acceptJson()->get("http://host.docker.internal:81/api/admins/personnels", $query);
 
         if ($response->failed()) {
             return redirect()->back()->with('error', $response->json()['message']);
