@@ -41,12 +41,19 @@ class TriageTest extends TestCase
             'role' => Roles::Infirmier
         ]);
 
-        TriageQueue::enqueue($user, 0);
+        TriageQueue::enqueue($user, 0, "");
 
         $this->assertDatabaseHas('triages', [
             'compte_id' => $user->compte->id,
             'personnel_id' => $inf->id,
         ]);
+    }
+
+    #[Test]
+    function queueCountReturns0WhenNotLoggedIn(): void {
+        $user = $this->createUserWithCompte();
+
+        $this->assertEquals(0, TriageQueue::queueCount($user));
     }
 
     #[Test]
@@ -58,7 +65,7 @@ class TriageTest extends TestCase
             'role' => Roles::Medecin
         ]);
 
-        TriageQueue::enqueue($user, 1);
+        TriageQueue::enqueue($user, 1, "Bla bla bla");
 
         $this->assertDatabaseHas('triages', [
             'compte_id' => $user->compte->id,
@@ -70,8 +77,8 @@ class TriageTest extends TestCase
     function enqueueLogsErrorWhenNoPractitionerExists(): void {
         $user = $this->createUserWithCompte();
 
-        TriageQueue::enqueue($user, 0);
-        TriageQueue::enqueue($user, 1);
+        TriageQueue::enqueue($user, 0, "");
+        TriageQueue::enqueue($user, 1, "Bla bla bla");
 
         $this->assertDatabaseMissing('triages', [
             'compte_id' => $user->compte->id,
@@ -208,6 +215,28 @@ class TriageTest extends TestCase
     }
 
     #[Test]
+    function rebalanceRedistributesPatientsDoctor() : void {
+        $p1 = Personnel::create([
+            'compte_id' => $this->createUserWithCompte()->compte->id,
+            'role' => Roles::Medecin
+        ]);
+
+        $patients = collect(range(1, 4))->map(function () {
+            return $this->createUserWithCompte();
+        });
+
+        foreach ($patients as $patient) {
+            TriageQueue::enqueue($patient, 1, "Bla bla bla");
+        }
+
+        TriageQueue::rebalance(Roles::Medecin);
+
+        $counts = Personnel::withCount('triages')->pluck('triages_count');
+
+        assertLessThanOrEqual(1, $counts->max() - $counts->min());
+    }
+
+    #[Test]
     function queueCountReturnsNumberOfTriages(): void {
         $user = $this->createUserWithCompte();
 
@@ -329,5 +358,28 @@ class TriageTest extends TestCase
 
         /** @noinspection PhpUndefinedMethodInspection */
         Log::shouldHaveReceived('error');
+    }
+
+    #[Test]
+    public function test_loggedin_returns_true_when_user_has_triage_with_role()
+    {
+        $user = $this->createUserWithCompte();
+
+        $personnel = Personnel::create([
+            'compte_id' => $user->compte->id,
+            'role' => Roles::Infirmier
+        ]);
+
+        $result = TimeCard::loggedin($user);
+
+        $this->assertTrue($result);
+    }
+
+    #[Test]
+    public function test_loggedin_returns_false_when_user_has_no_triage_with_role()
+    {
+        $user = $this->createUserWithCompte();
+        $result = TimeCard::loggedin($user);
+        $this->assertFalse($result);
     }
 }

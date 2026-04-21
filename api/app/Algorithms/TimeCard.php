@@ -57,4 +57,13 @@ class TimeCard
             Log::error($e->getMessage());
         }
     }
+
+    public static function loggedin(User $user): bool {
+        $compte = $user->compte;
+        $personnel = $compte->personnel;
+        if ($personnel) {
+            return true;
+        }
+        return false;
+    }
 }

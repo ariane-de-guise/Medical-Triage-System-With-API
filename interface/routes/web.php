@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MedecinController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -16,10 +17,27 @@ Route::post('/register', [AuthController::class, 'sendRegisterRequest'])->name('
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 
 Route::middleware(['api.auth'])->group(function () {
+
+    // General routes
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
-    Route::get('/patient', [PatientController::class, 'index'])->name('patient');
-    Route::post('/enqueue', [PatientController::class, 'ajoutFile'])->name('enqueue');
-    Route::delete('/dequeue', [PatientController::class, 'retireFile'])->name('dequeue');
+
+    // Patient routes
+    Route::prefix('patient')->controller(PatientController::class)->group(function () {
+        Route::get('/', 'index')->name('patient');
+        Route::post('/enqueue', 'store')->name('enqueue');
+        Route::delete('/dequeue', 'destroy')->name('dequeue');
+    });
+
+    // Médecin routes
+    Route::prefix('medecin')->controller(MedecinController::class)->group(function () {
+        Route::get('/', 'index')->name('medecin');
+        Route::get('/consultation', 'show')->name('medecin.show');
+        Route::post('/login', 'store')->name('medecin.login');
+        Route::delete('/logout', 'destroy')->name('medecin.logout');
+        Route::patch('/consultation/update', 'update')->name('medecin.update');
+    });
+
+    // Auth
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

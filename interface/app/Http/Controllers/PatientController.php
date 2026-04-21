@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Http;
 
 class PatientController extends Controller
 {
+    /**
+     * @throws ConnectionException
+     */
     public function index()
     {
         $userId = session('user')['id'] ?? null;
@@ -18,10 +22,13 @@ class PatientController extends Controller
         return view('patient', compact('user', 'position'));
     }
 
-    public function ajoutFile() {
+    /**
+     * @throws ConnectionException
+     */
+    public function store() {
         $userId = session('user')['id'] ?? null;
 
-        $response = Http::post("http://host.docker.internal:81/api/patient/$userId/add");
+        $response = Http::post("http://host.docker.internal:81/api/patient/$userId");
 
         if ($response->failed()) {
             return back()->withErrors(['message' => 'Failed to enqueue']);
@@ -30,10 +37,13 @@ class PatientController extends Controller
         return redirect()->route('patient')->with('success', 'Vous avez été ajouté à la file d\'attente');
     }
 
-    public function retireFile() {
+    /**
+     * @throws ConnectionException
+     */
+    public function destroy() {
         $userId = session('user')['id'] ?? null;
 
-        $response = Http::delete("http://host.docker.internal:81/api/patient/$userId/remove");
+        $response = Http::delete("http://host.docker.internal:81/api/patient/$userId");
 
         if ($response->failed()) {
             return back()->withErrors(['message' => 'Failed to dequeue']);

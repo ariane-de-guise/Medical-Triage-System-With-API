@@ -25,6 +25,11 @@
                         {{ session('success') }}
                     </div>
                 @endif
+                @if(session('error'))
+                    <div class="bg-red-200 text-red-800 p-2 rounded">
+                        {{ session('error') }}
+                    </div>
+                @endif
                 <hr class="my-6 border-gray-300">
                 <h2 class="text-md font-medium mb-2">Visites précédentes</h2>
                 @if(empty($user['compte']['visites']))

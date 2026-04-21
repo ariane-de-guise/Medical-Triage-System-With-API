@@ -3,9 +3,11 @@
 namespace App\Algorithms;
 
 use App\Models\Compte;
+use App\Models\Diagnostique;
 use App\Models\Personnel;
 use App\Models\Triage;
 use App\Models\User;
+use App\Models\Visite;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -20,9 +22,12 @@ class TriageQueue
      * @param User $user Utilisateur de la session.
      * @return int Taille de la file d'attente du personnel du compte de l'utilisateur.
      */
-    public function queueCount(User $user): int {
+    public static function queueCount(User $user): int {
         $compte = $user->compte;
         $personnel  = $compte->personnel;
+        if (!$personnel) {
+            return 0;
+        }
         return $personnel->triages()->count();
     }
 
@@ -33,12 +38,12 @@ class TriageQueue
      * @param int $priority Priorité de l'urgence (0 pour infirmier).
      * @return void Exception si problème à s'ajouter à la file.
      */
-    public static function enqueue(User $user, int $priority): void
+    public static function enqueue(User $user, int $priority, string $commentaire): void
     {
         $compte = $user->compte;
 
         try {
-            DB::transaction(function () use ($compte, $priority) {
+            DB::transaction(function () use ($commentaire, $compte, $priority) {
                 $last = Triage::lockForUpdate()->max('position') ?? 0;
 
                 $data = [
@@ -61,6 +66,21 @@ class TriageQueue
                     }
                     $data['personnel_id'] = $medecin->id;
                     $data['file_attente'] = Roles::Medecin;
+
+                    $diagnostique = new Diagnostique();
+                    $diagnostique->commentaire = $commentaire;
+                    $diagnostique->patient()->associate($compte);
+                    $diagnostique->description = "À remplir";
+                    $diagnostique->date_heure = now()->utc();
+                    $diagnostique->priorite = $priority;
+                    $diagnostique->save();
+
+                    $visite = new Visite();
+                    $visite->docteur()->associate($medecin->compte);
+                    $visite->patient()->associate($compte);
+                    $visite->diagnostique()->associate($diagnostique);
+                    $visite->date_heure = now()->utc();
+                    $visite->save();
                 }
 
                 $triage = new Triage();
@@ -140,6 +160,11 @@ class TriageQueue
             $triage->save();
 
             $practitioner->triages->push($triage);
+
+            if ($triage->priority > 0) {
+                $triage->compte->visites()->latest('date_heure')->first()
+                    ->update(['docteur_id' => $practitioner->compte->id]);
+            }
         }
     }
 

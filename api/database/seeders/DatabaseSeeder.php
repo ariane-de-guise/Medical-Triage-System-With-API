@@ -25,6 +25,18 @@ class DatabaseSeeder extends Seeder
 
         $comptes = Compte::factory(20)->create();
 
+        $adresses = Adresse::factory(30)->create();
+        foreach ($comptes as $compte) {
+            $compte->adresses()->attach($adresses->random(2)->pluck('id'));
+        }
+
+        $telephones = Telephone::factory(30)->create();
+        foreach ($comptes as $compte) {
+            $compte->telephones()->attach(
+                $telephones->random(2)->pluck('id')
+            );
+        }
+
         $admin = $comptes->shift();
 
         $nurses = $comptes->splice(0, 4);
@@ -43,20 +55,6 @@ class DatabaseSeeder extends Seeder
 
         foreach ($patients as $compte) {
             $compte->user->assignRole('patient');
-        }
-
-        $adresses = Adresse::factory(30)->create();
-        foreach ($comptes as $compte) {
-            $compte->adresses()->attach(
-                $adresses->random(2)->pluck('id')
-            );
-        }
-
-        $telephones = Telephone::factory(30)->create();
-        foreach ($comptes as $compte) {
-            $compte->telephones()->attach(
-                $telephones->random(2)->pluck('id')
-            );
         }
 
         foreach (range(1, 30) as $ignored) {
@@ -98,11 +96,11 @@ class DatabaseSeeder extends Seeder
         $count = 0;
         foreach ($patients as $patient) {
             if ($count < 6) {
-                TriageQueue::enqueue($patient->user, 0);
+                TriageQueue::enqueue($patient->user, 0, "");
             }
             else {
                 $priority = rand(1, 5);
-                TriageQueue::enqueue($patient->user, $priority);
+                TriageQueue::enqueue($patient->user, $priority, fake()->sentence());
             }
 
             $count++;

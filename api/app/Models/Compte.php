@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * @property mixed $latestVisite
+ */
 class Compte extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'user_id',
         'nom',
@@ -48,5 +50,10 @@ class Compte extends Model
     public function visites(): HasMany
     {
         return $this->hasMany(Visite::class, 'patient_id');
+    }
+
+    public function latestVisite() : HasOne
+    {
+        return $this->hasOne(Visite::class, 'patient_id')->latestOfMany('date_heure');
     }
 }
