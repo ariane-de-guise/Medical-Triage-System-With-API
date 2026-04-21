@@ -1,11 +1,5 @@
 <x-app-layout>
     <div class="max-w-md mx-auto">
-        @if (session('success'))
-            <div class="mb-4 p-3 bg-green-100 text-green-600 rounded-xl">
-                {{ session('success') }}
-            </div>
-        @endif
-
         <!-- Title -->
         <h2 class="text-2xl font-semibold text-gray-700 mb-6 text-center">
             Re-bienvenue !

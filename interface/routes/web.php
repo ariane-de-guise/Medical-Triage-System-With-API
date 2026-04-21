@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\PersonnelController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MedecinController;
 use App\Http\Controllers\PatientController;
@@ -17,7 +19,6 @@ Route::post('/register', [AuthController::class, 'sendRegisterRequest'])->name('
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 
 Route::middleware(['api.auth'])->group(function () {
-
     // General routes
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
@@ -36,6 +37,22 @@ Route::middleware(['api.auth'])->group(function () {
         Route::post('/login', 'store')->name('medecin.login');
         Route::delete('/logout', 'destroy')->name('medecin.logout');
         Route::patch('/consultation/update', 'update')->name('medecin.update');
+    });
+
+    // Médecin routes
+    Route::prefix('admin')->controller(AdminController::class)->group(function () {
+        Route::get('/', 'index')->name('admin');
+
+        // Personnel
+        Route::prefix('personnels')->controller(PersonnelController::class)->group(function () {
+            Route::get('/', 'index')->name('personnels.index');
+            Route::get('/create', 'create')->name('personnels.create');
+            Route::post('/store', 'store')->name('personnels.store');
+            Route::get('/{id}', 'show')->name('personnels.show');
+            Route::get('/{id}/edit', 'edit')->name('personnels.edit');
+            Route::put('/update', 'update')->name('personnels.update');
+            Route::delete('/{id}', 'destroy')->name('personnels.destroy');
+        });
     });
 
     // Auth

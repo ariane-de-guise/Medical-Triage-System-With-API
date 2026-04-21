@@ -13,9 +13,13 @@ class ProfileController extends Controller
     public function show()
     {
         $userId = session('user')['id'] ?? null;
+        $response = Http::withToken(session('token'))->acceptJson()->get("http://host.docker.internal:81/api/profiles/$userId");
 
-        $user = Http::get("http://host.docker.internal:81/api/user/$userId")['user'];
+        if ($response->failed()) {
+            return redirect()->back()->with('error', $response->json()['message']);
+        }
 
+        $user = $response['user'];
         return view('profile.show', compact('user'));
     }
 }

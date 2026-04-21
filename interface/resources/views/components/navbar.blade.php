@@ -1,9 +1,9 @@
-<nav class="bg-white/80 backdrop-blur-md shadow-sm px-6 py-4 flex justify-between items-center rounded-b-3xl">
+<nav class="bg-white/80 backdrop-blur-md shadow-sm px-6 py-4 flex justify-between items-center">
 
     <!-- Logo -->
     <div class="text-2xl font-bold text-purple-600">
         <a href="{{ route('dashboard') }}">
-            🏥 TriageApp <!-- À chnager plus tard -->
+            🏥 Système de triage médical <!-- À chnager plus tard -->
         </a>
     </div>
 

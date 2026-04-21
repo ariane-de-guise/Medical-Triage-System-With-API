@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Routing\Controller;
 
-class UserController extends Controller
+class ProfileController extends Controller
 {
     public function show($id)
     {

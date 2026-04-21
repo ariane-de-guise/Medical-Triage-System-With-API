@@ -12,11 +12,11 @@
 
                 <div class="space-y-2">
                     @if ($user['roles'] && in_array('admin', $user['roles']))
-                        <a href="{{ url('/admin') }}" class="block px-4 py-2 bg-blue-500 dark:text-black rounded">Espace Admin</a>
+                        <a href="{{ route('admin') }}" class="block px-4 py-2 bg-blue-500 dark:text-black rounded">Espace Admin</a>
                     @endif
 
                     @if ($user['roles'] && in_array('medecin', $user['roles']))
-                        <a href="{{ url('/medecin') }}" class="block px-4 py-2 bg-green-500 dark:text-black rounded">Espace Médecin</a>
+                        <a href="{{ route('medecin') }}" class="block px-4 py-2 bg-green-500 dark:text-black rounded">Espace Médecin</a>
                     @endif
 
                     @if ($user['roles'] && in_array('infirmier', $user['roles']))
@@ -24,7 +24,7 @@
                     @endif
 
                     @if ($user['roles'] && in_array('patient', $user['roles']))
-                        <a href="{{ url('/patient') }}" class="block px-4 py-2 bg-purple-500 dark:text-black rounded">Espace Patient</a>
+                        <a href="{{ route('patient') }}" class="block px-4 py-2 bg-purple-500 dark:text-black rounded">Espace Patient</a>
                     @endif
                 </div>
             </div>

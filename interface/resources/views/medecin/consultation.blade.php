@@ -9,16 +9,6 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-green-100 p-6 rounded shadow">
                 <h3 class="text-lg font-medium mb-2">Espace Médecin</h3>
-                @if(session('success'))
-                    <div class="bg-green-200 text-green-800 p-2 rounded">
-                        {{ session('success') }}
-                    </div>
-                @endif
-                @if(session('error'))
-                    <div class="bg-red-200 text-red-800 p-2 rounded">
-                        {{ session('error') }}
-                    </div>
-                @endif
                 <form method="POST" action="{{ route('medecin.update') }}">
                     @csrf
                     @method('PATCH')

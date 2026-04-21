@@ -8,6 +8,11 @@ class DashboardController extends Controller
 {
     public function index() {
         $user = session('user');
+
+        if (!$user) {
+            return redirect('/login');
+        }
+
         return view('dashboard', compact('user'));
     }
 }

@@ -52,7 +52,7 @@ class MedecinController extends Controller
         try {
             TimeCard::login($user, Roles::Medecin);
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            return response()->json(['message' => $e->getMessage()], 400);
         }
 
         return response()->json([
@@ -87,7 +87,7 @@ class MedecinController extends Controller
 
         if (!$visite || !$visite->diagnostique) {
             return response()->json([
-                'error' => 'Aucun diagnostique trouvé pour ce patient'
+                'message' => 'Aucun diagnostique trouvé pour ce patient'
             ], 404);
         }
 

@@ -16,12 +16,17 @@ class MedecinController extends Controller
     {
         $userId = session('user')['id'] ?? null;
 
-        $response = Http::get("http://host.docker.internal:81/api/medecin/$userId");
+        $response = Http::withToken(session('token'))->acceptJson()->get("http://host.docker.internal:81/api/medecins/$userId");
+
+        if ($response->failed()) {
+            return redirect()->back()->with('error', $response->json()['message']);
+        }
+
         $loggedIn = $response['loggedIn'];
         $count = $response['count'];
         $patients = $response['patients'];
 
-        return view('medecin', compact('loggedIn', 'count', 'patients'));
+        return view('medecin.index', compact('loggedIn', 'count', 'patients'));
     }
 
     /**
@@ -29,10 +34,14 @@ class MedecinController extends Controller
      */
     public function show() {
         $userId = session('user')['id'] ?? null;
-        $response = Http::get("http://host.docker.internal:81/api/medecin/$userId/consultation");
+        $response = Http::withToken(session('token'))->acceptJson()->get("http://host.docker.internal:81/api/medecins/$userId/consultation");
+
+        if ($response->failed()) {
+            return redirect()->back()->with('error', $response->json()['message']);
+        }
 
         $patient = $response['patient'];
-        return view('consultation', compact('patient'));
+        return view('medecin.consultation', compact('patient'));
     }
 
     /**
@@ -40,10 +49,10 @@ class MedecinController extends Controller
      */
     public function destroy() {
         $userId = session('user')['id'] ?? null;
-        $response = Http::delete("http://host.docker.internal:81/api/medecin/$userId");
+        $response = Http::withToken(session('token'))->acceptJson()->delete("http://host.docker.internal:81/api/medecins/$userId");
 
         if ($response->failed()) {
-            return back()->withErrors(['message' => 'Une erreur est survenue lors de la déconnexion.']);
+            return redirect()->back()->with('error', $response->json()['message']);
         }
 
         return redirect()->route('medecin')->with('success', 'Vous vous êtes déconnecté avec succès');
@@ -54,10 +63,10 @@ class MedecinController extends Controller
      */
     public function store() {
         $userId = session('user')['id'] ?? null;
-        $response = Http::post("http://host.docker.internal:81/api/medecin/$userId");
+        $response = Http::withToken(session('token'))->acceptJson()->post("http://host.docker.internal:81/api/medecins/$userId");
 
         if ($response->failed()) {
-            return back()->withErrors(['message' => 'Une erreur est survenue lors de la connexion.']);
+            return redirect()->back()->with('error', $response->json()['message']);
         }
 
         return redirect()->route('medecin')->with('success', 'Vous vous êtes connecté avec succès');
@@ -68,14 +77,13 @@ class MedecinController extends Controller
      */
     public function update(Request $request) {
         $userId = session('user')['id'] ?? null;
-        $response = Http::patch("http://host.docker.internal:81/api/medecin/$userId", [
+        $response = Http::withToken(session('token'))->acceptJson()->patch("http://host.docker.internal:81/api/medecins/$userId", [
             'diagnostique' => $request->diagnostique,
             'date_heure' => now(),
         ]);
 
         if ($response->failed()) {
-            dd($response->body());
-            return back()->withErrors(['message' => 'Une erreur est survenue lors de la sauvegarde du dossier.']);
+            return redirect()->back()->with('error', $response->json()['message']);
         }
 
         return redirect()->route('medecin')->with('success', 'Vous avez terminé la consultation avec succès.');

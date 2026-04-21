@@ -84,10 +84,12 @@ class AuthController extends Controller
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
-                'message' => 'Invalid credentials'
+                'message' => 'Identifiant ou mot de passe incorrect'
             ], 401);
         }
 
+        $roles = $user->roles->pluck('name')->toArray();
+        $token = $user->createToken('user-token', $roles)->plainTextToken;
         $user = User::with(['compte', 'roles'])->findOrFail($user->id);
 
         return response()->json([
@@ -96,7 +98,8 @@ class AuthController extends Controller
                 'email' => $user->email,
                 'compte' => $user->compte,
                 'roles' => $user->roles->pluck('name')->toArray(),
-            ]
+            ],
+            'token' => $token,
         ]);
     }
 

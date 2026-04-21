@@ -19,6 +19,17 @@
 
     <!-- ✨ Card wrapper -->
     <div class="bg-white rounded-3xl shadow-lg p-6">
+        @if(session('success'))
+            <div class="bg-green-200 text-green-800 p-2 rounded">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if(session('error'))
+            <div class="bg-red-200 text-red-800 p-2 rounded">
+                {{ session('error') }}
+            </div>
+        @endif
+        <br>
         {{ $slot ?? '' }}
     </div>
 

@@ -64,14 +64,26 @@ class AuthController extends Controller
 
         session([
             'user' => $user,
+            'token' => $response->json()['token'],
         ]);
 
         return redirect()->route('dashboard');
     }
 
+    /**
+     * @throws ConnectionException
+     */
     public function logout()
     {
-        session()->forget('user');
+        $token = session('token');
+
+        $response = Http::withToken($token)->acceptJson()->post('http://host.docker.internal:81/api/logout');
+
+        if ($response->failed()) {
+            return redirect()->back()->with('error', $response->json()['message']);
+        }
+
+        session()->forget(['user', 'token']);
 
         return redirect('login');
     }

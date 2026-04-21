@@ -1,11 +1,5 @@
 <x-app-layout>
     <div class="max-w-md mx-auto">
-        @if (session('success'))
-            <div class="mb-4 p-3 bg-green-100 text-green-600 rounded-xl">
-                {{ session('success') }}
-            </div>
-        @endif
-
         <!-- Title -->
         <h2 class="text-2xl font-semibold text-gray-700 mb-6 text-center">
             S'inscrire pour accéder à votre espace personnel
@@ -13,16 +7,6 @@
 
         <!-- Card -->
         <div class="bg-white p-6 rounded-2xl shadow-md">
-            @if ($errors->any())
-                <div class="mb-4 p-3 bg-red-100 text-red-600 rounded-xl">
-                    <ul class="text-sm">
-                        @foreach ($errors->all() as $error)
-                            <li>• {{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
             <form method="POST" action="{{ route('register') }}" class="space-y-5">
                 @csrf
 
