@@ -14,6 +14,7 @@ class ProfileController extends Controller
 
         return response()->json([
             'user' => $user,
+            'roles' => $user->compte->user->roles->pluck('name')->toArray(),
         ]);
     }
 }

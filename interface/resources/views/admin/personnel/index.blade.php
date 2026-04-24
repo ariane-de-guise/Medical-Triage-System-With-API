@@ -39,7 +39,7 @@
                                 {{ $personnel['compte']['prenom'] }} {{ $personnel['compte']['nom'] }}
                             </h4>
                             <span class="text-sm px-3 py-1 rounded-full bg-blue-100 text-blue-700">
-                                {{ $personnel['role'] }}
+                                {{ ucfirst($personnel['role']) }}
                             </span>
                         </div>
                         <div class="text-sm text-gray-700">

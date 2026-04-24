@@ -14,10 +14,15 @@
                 </form>
                 <form method="GET" action="{{ route('triages.index') }}">
                     <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-blue-200 text-blue-700 rounded">
-                        Files de triage
+                        Files d'attente
                     </button>
                 </form>
-                <a href="{{ route('dashboard') }}" class="inline-block mt-4 px-4 py-2 bg-blue-500 text-white rounded">Retour au Dashboard</a>
+                <form method="GET" action="{{ route('comptes.index') }}">
+                    <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-blue-200 text-blue-700 rounded">
+                        Comptes
+                    </button>
+                </form>
+                <a href="{{ route('dashboard') }}" class="inline-block mt-4 px-4 py-2 bg-blue-500 text-white rounded">Retour au tableau de bord</a>
             </div>
         </div>
     </div>

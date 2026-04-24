@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CompteController;
 use App\Http\Controllers\Admin\PersonnelController;
 use App\Http\Controllers\Admin\TriageController;
 use App\Http\Controllers\AuthController;
@@ -59,7 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
                 Route::delete('/{id}', 'destroy')->name('triages.destroy');
             });
 
-            /**
+
             // Compte
             Route::prefix('comptes')->controller(CompteController::class)->group(function () {
                 Route::get('/', 'index')->name('comptes.index');
@@ -70,6 +71,7 @@ Route::middleware('auth:sanctum')->group(function () {
                 Route::put('/update', 'update')->name('comptes.update');
                 Route::delete('/{id}', 'destroy')->name('comptes.destroy');
 
+                /**
                 // Visite
                 Route::prefix('comptes/{id}/visites')->controller(VisiteController::class)->group(function () {
                     Route::get('/', 'index')->name('visites.index');
@@ -113,8 +115,10 @@ Route::middleware('auth:sanctum')->group(function () {
                     Route::put('/update', 'update')->name('telephones.update');
                     Route::delete('/{id}', 'destroy')->name('telephones.destroy');
                 });
+                */
             });
 
+            /**
             // User
             Route::prefix('users')->controller(ProfileController::class)->group(function () {
                 Route::get('/', 'index')->name('users.index');

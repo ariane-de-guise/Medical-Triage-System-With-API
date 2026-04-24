@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CompteController;
 use App\Http\Controllers\Admin\PersonnelController;
 use App\Http\Controllers\Admin\TriageController;
 use App\Http\Controllers\DashboardController;
@@ -64,6 +65,17 @@ Route::middleware(['api.auth'])->group(function () {
             Route::get('/{id}/edit', 'edit')->name('triages.edit');
             Route::put('/update', 'update')->name('triages.update');
             Route::delete('/{id}', 'destroy')->name('triages.destroy');
+        });
+
+        // Triage
+        Route::prefix('comptes')->controller(CompteController::class)->group(function () {
+            Route::get('/', 'index')->name('comptes.index');
+            Route::get('/create', 'create')->name('comptes.create');
+            Route::post('/store', 'store')->name('comptes.store');
+            Route::get('/{id}', 'show')->name('comptes.show');
+            Route::get('/{id}/edit', 'edit')->name('comptes.edit');
+            Route::put('/update', 'update')->name('comptes.update');
+            Route::delete('/{id}', 'destroy')->name('comptes.destroy');
         });
     });
 

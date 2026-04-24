@@ -21,7 +21,7 @@ class CheckAbilityRoles
         }
 
         foreach ($abilities as $ability) {
-            if ($request->user()->tokenCan($ability)) {
+            if ($request->user()->hasRole($ability)) {
                 return $next($request);
             }
         }

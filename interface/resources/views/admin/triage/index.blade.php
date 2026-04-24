@@ -43,7 +43,7 @@
                                     Priorité {{ $triage['priority'] }}
                                 </span>
                                 <span class="text-sm px-3 py-1 rounded-full bg-blue-200 text-blue-700">
-                                    {{ $triage['file_attente'] }}
+                                    {{ ucfirst($triage['file_attente']) }}
                                 </span>
                             </div>
                         </div>
