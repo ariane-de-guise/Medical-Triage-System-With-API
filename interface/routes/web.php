@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\PersonnelController;
+use App\Http\Controllers\Admin\TriageController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MedecinController;
 use App\Http\Controllers\PatientController;
@@ -52,6 +53,17 @@ Route::middleware(['api.auth'])->group(function () {
             Route::get('/{id}/edit', 'edit')->name('personnels.edit');
             Route::put('/update', 'update')->name('personnels.update');
             Route::delete('/{id}', 'destroy')->name('personnels.destroy');
+        });
+
+        // Triage
+        Route::prefix('triages')->controller(TriageController::class)->group(function () {
+            Route::get('/', 'index')->name('triages.index');
+            Route::get('/create', 'create')->name('triages.create');
+            Route::post('/store', 'store')->name('triages.store');
+            Route::get('/{id}', 'show')->name('triages.show');
+            Route::get('/{id}/edit', 'edit')->name('triages.edit');
+            Route::put('/update', 'update')->name('triages.update');
+            Route::delete('/{id}', 'destroy')->name('triages.destroy');
         });
     });
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\PersonnelController;
+use App\Http\Controllers\Admin\TriageController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MedecinController;
 use App\Http\Controllers\MetaController;
@@ -47,7 +48,6 @@ Route::middleware('auth:sanctum')->group(function () {
                 Route::delete('/{id}', 'destroy')->name('personnels.destroy');
             });
 
-            /**
             // Triage
             Route::prefix('triages')->controller(TriageController::class)->group(function () {
                 Route::get('/', 'index')->name('triages.index');
@@ -59,6 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
                 Route::delete('/{id}', 'destroy')->name('triages.destroy');
             });
 
+            /**
             // Compte
             Route::prefix('comptes')->controller(CompteController::class)->group(function () {
                 Route::get('/', 'index')->name('comptes.index');
