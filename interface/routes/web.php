@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CompteController;
 use App\Http\Controllers\Admin\PersonnelController;
 use App\Http\Controllers\Admin\TriageController;
+use App\Http\Controllers\Admin\VisiteController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InfirmierController;
 use App\Http\Controllers\MedecinController;
@@ -85,6 +86,17 @@ Route::middleware(['api.auth'])->group(function () {
             Route::get('/{id}/edit', 'edit')->name('comptes.edit');
             Route::put('/update', 'update')->name('comptes.update');
             Route::delete('/{id}', 'destroy')->name('comptes.destroy');
+
+            // Visite
+            Route::prefix('{compte_id}/visites')->controller(VisiteController::class)->group(function () {
+                Route::get('/', 'index')->name('visites.index');
+                Route::get('/create', 'create')->name('visites.create');
+                Route::post('/store', 'store')->name('visites.store');
+                Route::get('/{id}', 'show')->name('visites.show');
+                Route::get('/{id}/edit', 'edit')->name('visites.edit');
+                Route::put('/update', 'update')->name('visites.update');
+                Route::delete('/{id}', 'destroy')->name('visites.destroy');
+            });
         });
     });
 

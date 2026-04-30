@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CompteController;
 use App\Http\Controllers\Admin\PersonnelController;
 use App\Http\Controllers\Admin\TriageController;
+use App\Http\Controllers\Admin\VisiteController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InfirmierController;
 use App\Http\Controllers\MedecinController;
@@ -83,9 +84,9 @@ Route::middleware('auth:sanctum')->group(function () {
                 Route::put('/update', 'update')->name('comptes.update');
                 Route::delete('/{id}', 'destroy')->name('comptes.destroy');
 
-                /**
+
                 // Visite
-                Route::prefix('comptes/{id}/visites')->controller(VisiteController::class)->group(function () {
+                Route::prefix('{compte_id}/visites')->controller(VisiteController::class)->group(function () {
                     Route::get('/', 'index')->name('visites.index');
                     Route::get('/create', 'create')->name('visites.create');
                     Route::post('/store', 'store')->name('visites.store');
@@ -95,19 +96,9 @@ Route::middleware('auth:sanctum')->group(function () {
                     Route::delete('/{id}', 'destroy')->name('visites.destroy');
                 });
 
-                // Diagnostique
-                Route::prefix('comptes/{id}/diagnostiques')->controller(DiagnostiqueController::class)->group(function () {
-                    Route::get('/', 'index')->name('diagnostiques.index');
-                    Route::get('/create', 'create')->name('diagnostiques.create');
-                    Route::post('/store', 'store')->name('diagnostiques.store');
-                    Route::get('/{id}', 'show')->name('diagnostiques.show');
-                    Route::get('/{id}/edit', 'edit')->name('diagnostiques.edit');
-                    Route::put('/update', 'update')->name('diagnostiques.update');
-                    Route::delete('/{id}', 'destroy')->name('diagnostiques.destroy');
-                });
-
+                /**
                 // Adresse
-                Route::prefix('comptes/{id}/adresses')->controller(AdresseController::class)->group(function () {
+                Route::prefix('{compte_id}/adresses')->controller(AdresseController::class)->group(function () {
                     Route::get('/', 'index')->name('adresses.index');
                     Route::get('/create', 'create')->name('adresses.create');
                     Route::post('/store', 'store')->name('adresses.store');
@@ -118,7 +109,7 @@ Route::middleware('auth:sanctum')->group(function () {
                 });
 
                 // Téléphone
-                Route::prefix('comptes/{id}/telephones')->controller(TelephoneController::class)->group(function () {
+                Route::prefix('{compte_id}/telephones')->controller(TelephoneController::class)->group(function () {
                     Route::get('/', 'index')->name('telephones.index');
                     Route::get('/create', 'create')->name('telephones.create');
                     Route::post('/store', 'store')->name('telephones.store');
