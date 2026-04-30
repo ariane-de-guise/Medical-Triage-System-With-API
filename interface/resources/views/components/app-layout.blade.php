@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body class="bg-gradient-to-br from-blue-50 to-purple-100 min-h-screen font-sans">
+<body class="bg-gradient-to-br from-blue-50 to-teal-100 min-h-screen font-sans">
 
 <!-- 🌸 Navbar -->
 <x-navbar/>

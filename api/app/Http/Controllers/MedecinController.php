@@ -17,7 +17,7 @@ class MedecinController extends Controller
         $user = User::findOrFail($id);
         $count = TriageQueue::queueCount($user);
         $patients = [];
-        $loggedin = TimeCard::loggedin($user);
+        $loggedin = TimeCard::loggedin($user, Roles::Medecin);
 
         for ($i = 0; $i < $count; ++$i) {
             $patients[] = TriageQueue::peek($i, $user)->load([
@@ -44,12 +44,16 @@ class MedecinController extends Controller
 
         return response()->json([
             'patient' => $patient,
+            'loggedIn' => TimeCard::loggedin($user, Roles::Medecin),
         ]);
     }
 
     public function store($id) {
         $user = User::findOrFail($id);
         try {
+            if (TimeCard::loggedin($user, Roles::Infirmier) || TimeCard::loggedin($user, Roles::Medecin)) {
+                return response()->json(['message' => 'Vous êtes déjà connecté au système de triage'], 400);
+            }
             TimeCard::login($user, Roles::Medecin);
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 400);
@@ -75,8 +79,8 @@ class MedecinController extends Controller
 
     public function update($id, Request $request) {
         $request->validate([
-            'diagnostique' => ['required'],
-            'date_heure' => ['required', 'date'],
+            'diagnostique' => 'required',
+            'date_heure' => 'required|date',
         ]);
 
         $user = User::findOrFail($id);

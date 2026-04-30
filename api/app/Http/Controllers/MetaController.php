@@ -20,4 +20,10 @@ class MetaController extends Controller
             array_map(fn($type) => ['name' => $type], Constants::TYPES)
         );
     }
+
+    public function resources() {
+        return response()->json(
+            Constants::RESSOURCES
+        );
+    }
 }

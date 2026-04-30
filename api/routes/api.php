@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CompteController;
 use App\Http\Controllers\Admin\PersonnelController;
 use App\Http\Controllers\Admin\TriageController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\InfirmierController;
 use App\Http\Controllers\MedecinController;
 use App\Http\Controllers\MetaController;
 use App\Http\Controllers\PatientController;
@@ -32,6 +33,17 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/{id}', 'store')->name('medecin.store');
             Route::delete('/{id}', 'destroy')->name('medecin.destroy');
             Route::patch('/{id}', 'update')->name('medecin.update');
+        });
+    });
+
+    Route::middleware('ability:infirmier')->group(function () {
+        // Médecin
+        Route::prefix('infirmiers')->controller(InfirmierController::class)->group(function () {
+            Route::get('/{id}', 'index')->name('infirmier.index');
+            Route::get('/{id}/consultation', 'show')->name('infirmier.show');
+            Route::post('/{id}', 'store')->name('infirmier.store');
+            Route::delete('/{id}', 'destroy')->name('infirmier.destroy');
+            Route::patch('/{id}', 'update')->name('infirmier.update');
         });
     });
 
@@ -117,19 +129,6 @@ Route::middleware('auth:sanctum')->group(function () {
                 });
                 */
             });
-
-            /**
-            // User
-            Route::prefix('users')->controller(ProfileController::class)->group(function () {
-                Route::get('/', 'index')->name('users.index');
-                Route::get('/create', 'create')->name('users.create');
-                Route::post('/store', 'store')->name('users.store');
-                Route::get('/{id}', 'show')->name('users.show');
-                Route::get('/{id}/edit', 'edit')->name('users.edit');
-                Route::put('/update', 'update')->name('users.update');
-                Route::delete('/{id}', 'destroy')->name('users.destroy');
-            });
-            */
         });
     });
 
@@ -141,6 +140,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::controller(MetaController::class)->group(function () {
     Route::get('/provinces', 'provinces')->name('meta.provinces');
     Route::get('/types', 'types')->name('meta.types');
+    Route::get('/ressources', 'resources')->name('meta.resources');
 });
 
 // Auth

@@ -21,7 +21,7 @@
                         type="email"
                         value="{{ old('email') }}"
                         required
-                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-transparent transition"
+                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition"
                         placeholder="you@example.com"
                     />
                 </div>
@@ -36,7 +36,7 @@
                         name="password"
                         type="password"
                         required
-                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-transparent transition"
+                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition"
                         placeholder="••••••••"
                     />
                 </div>
@@ -52,7 +52,7 @@
                         type="text"
                         value="{{ old('nom') }}"
                         required
-                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-transparent transition"
+                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition"
                         placeholder="Doe"
                     />
                 </div>
@@ -68,7 +68,7 @@
                         type="text"
                         value="{{ old('prenom') }}"
                         required
-                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-transparent transition"
+                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition"
                         placeholder="John"
                     />
                 </div>
@@ -84,7 +84,7 @@
                         type="date"
                         value="{{ old('date_naissance') }}"
                         required
-                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-transparent transition"
+                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition"
                     />
                 </div>
 
@@ -99,7 +99,7 @@
                         type="number"
                         value="{{ old('numero') }}"
                         required
-                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-transparent transition"
+                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition"
                     />
                 </div>
 
@@ -114,7 +114,7 @@
                         type="text"
                         value="{{ old('rue') }}"
                         required
-                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-transparent transition"
+                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition"
                     />
                 </div>
 
@@ -129,7 +129,7 @@
                         type="text"
                         value="{{ old('ville') }}"
                         required
-                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-transparent transition"
+                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition"
                     />
                 </div>
 
@@ -142,7 +142,7 @@
                         id="province"
                         name="province"
                         required
-                        class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-transparent transition"
+                        class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition"
                     >
                         <option value="">Choisissez une province</option>
                         @foreach($provinces as $code)
@@ -165,7 +165,7 @@
                         type="text"
                         value="{{ old('code_postal') }}"
                         required
-                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-transparent transition"
+                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition"
                     />
                 </div>
 
@@ -178,7 +178,7 @@
                         id="type"
                         name="type"
                         required
-                        class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-transparent transition"
+                        class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition"
                     >
                         <option value="">Choisissez un type</option>
                         @foreach($types as $type)
@@ -201,7 +201,7 @@
                         type="number"
                         value="{{ old('telephone') }}"
                         required
-                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-transparent transition"
+                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition"
                     />
                 </div>
 
@@ -209,7 +209,7 @@
                 <div>
                     <button
                         type="submit"
-                        class="w-full bg-purple-500 text-white py-2 rounded-xl hover:bg-purple-600 transition shadow-sm font-medium"
+                        class="w-full bg-teal-500 text-white py-2 rounded-xl hover:bg-teal-600 transition shadow-sm font-medium"
                     >
                         S'incrire
                     </button>

@@ -5,15 +5,15 @@ use App\Http\Controllers\Admin\CompteController;
 use App\Http\Controllers\Admin\PersonnelController;
 use App\Http\Controllers\Admin\TriageController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InfirmierController;
 use App\Http\Controllers\MedecinController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 Route::post('/login', [AuthController::class, 'sendLoginRequest'])->name('send-login-request');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -41,7 +41,16 @@ Route::middleware(['api.auth'])->group(function () {
         Route::patch('/consultation/update', 'update')->name('medecin.update');
     });
 
-    // Médecin routes
+    // Infirmier routes
+    Route::prefix('infirmier')->controller(InfirmierController::class)->group(function () {
+        Route::get('/', 'index')->name('infirmier');
+        Route::get('/consultation', 'show')->name('infirmier.show');
+        Route::post('/login', 'store')->name('infirmier.login');
+        Route::delete('/logout', 'destroy')->name('infirmier.logout');
+        Route::patch('/consultation/update', 'update')->name('infirmier.update');
+    });
+
+    // Admin routes
     Route::prefix('admin')->controller(AdminController::class)->group(function () {
         Route::get('/', 'index')->name('admin');
 

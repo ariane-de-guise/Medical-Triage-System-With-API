@@ -31,7 +31,7 @@
                         type="email"
                         value="{{ old('email') }}"
                         required
-                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-transparent transition"
+                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition"
                         placeholder="you@example.com"
                     />
                 </div>
@@ -46,7 +46,7 @@
                         name="password"
                         type="password"
                         required
-                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-transparent transition"
+                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition"
                         placeholder="••••••••"
                     />
                 </div>
@@ -55,7 +55,7 @@
                 <div>
                     <button
                         type="submit"
-                        class="w-full bg-purple-500 text-white py-2 rounded-xl hover:bg-purple-600 transition shadow-sm font-medium"
+                        class="w-full bg-teal-500 text-white py-2 rounded-xl hover:bg-teal-600 transition shadow-sm font-medium"
                     >
                         Se connecter
                     </button>

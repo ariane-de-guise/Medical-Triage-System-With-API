@@ -4,6 +4,7 @@ namespace App\Algorithms;
 
 use App\Models\Personnel;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Throwable;
@@ -24,6 +25,10 @@ class TimeCard
 
         try {
             DB::transaction(function () use ($role, $compte) {
+                if (Personnel::where('compte_id', $compte->id)->exists()) {
+                    throw new Exception("Ce compte est déjà connecté.");
+                }
+
                 Personnel::create([
                     'compte_id' => $compte->id,
                     'role' => $role,
@@ -58,12 +63,10 @@ class TimeCard
         }
     }
 
-    public static function loggedin(User $user): bool {
-        $compte = $user->compte;
-        $personnel = $compte->personnel;
-        if ($personnel) {
-            return true;
-        }
-        return false;
+    public static function loggedin(User $user, Roles $role): bool
+    {
+        return Personnel::where('compte_id', $user->compte->id)
+            ->where('role', $role)
+            ->exists();
     }
 }

@@ -41,7 +41,8 @@ class MedecinController extends Controller
         }
 
         $patient = $response['patient'];
-        return view('medecin.consultation', compact('patient'));
+        $loggedIn = $response['loggedIn'];
+        return view('medecin.consultation', compact('patient', 'loggedIn'));
     }
 
     /**

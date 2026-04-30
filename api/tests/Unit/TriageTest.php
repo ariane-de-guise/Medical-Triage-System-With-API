@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit;
 
 use App\Algorithms\Roles;
 use App\Algorithms\TimeCard;
@@ -361,6 +361,24 @@ class TriageTest extends TestCase
     }
 
     #[Test]
+    function loginTrowsErrorWhenAlreadyLoogedIn(): void
+    {
+        Log::spy();
+
+        $user = $this->createUserWithCompte();
+
+        Personnel::create([
+            'compte_id' => $user->compte->id,
+            'role' => Roles::Infirmier
+        ]);
+
+        TimeCard::login($user, Roles::Infirmier);
+
+        /** @noinspection PhpUndefinedMethodInspection */
+        Log::shouldHaveReceived('error');
+    }
+
+    #[Test]
     public function test_loggedin_returns_true_when_user_has_triage_with_role()
     {
         $user = $this->createUserWithCompte();
@@ -370,7 +388,7 @@ class TriageTest extends TestCase
             'role' => Roles::Infirmier
         ]);
 
-        $result = TimeCard::loggedin($user);
+        $result = TimeCard::loggedin($user, Roles::Infirmier);
 
         $this->assertTrue($result);
     }
@@ -379,7 +397,7 @@ class TriageTest extends TestCase
     public function test_loggedin_returns_false_when_user_has_no_triage_with_role()
     {
         $user = $this->createUserWithCompte();
-        $result = TimeCard::loggedin($user);
+        $result = TimeCard::loggedin($user, Roles::Infirmier);
         $this->assertFalse($result);
     }
 }
