@@ -40,6 +40,11 @@
                                 Voir les visites de {{ $compte['prenom'] }}
                             </button>
                         </form>
+                        <form method="GET" action="{{ route('adresses.index', $compte['id']) }}">
+                            <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
+                                Voir les adresses de {{ $compte['prenom'] }}
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

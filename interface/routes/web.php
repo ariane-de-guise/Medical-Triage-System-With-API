@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdresseController;
 use App\Http\Controllers\Admin\CompteController;
 use App\Http\Controllers\Admin\PersonnelController;
 use App\Http\Controllers\Admin\TriageController;
@@ -96,6 +97,17 @@ Route::middleware(['api.auth'])->group(function () {
                 Route::get('/{id}/edit', 'edit')->name('visites.edit');
                 Route::put('/update', 'update')->name('visites.update');
                 Route::delete('/{id}', 'destroy')->name('visites.destroy');
+            });
+
+            // Adresse
+            Route::prefix('{compte_id}/adresses')->controller(AdresseController::class)->group(function () {
+                Route::get('/', 'index')->name('adresses.index');
+                Route::get('/create', 'create')->name('adresses.create');
+                Route::post('/store', 'store')->name('adresses.store');
+                Route::get('/{id}', 'show')->name('adresses.show');
+                Route::get('/{id}/edit', 'edit')->name('adresses.edit');
+                Route::put('/update', 'update')->name('adresses.update');
+                Route::delete('/{id}', 'destroy')->name('adresses.destroy');
             });
         });
     });

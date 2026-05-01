@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdresseController;
 use App\Http\Controllers\Admin\CompteController;
 use App\Http\Controllers\Admin\PersonnelController;
 use App\Http\Controllers\Admin\TriageController;
@@ -96,7 +97,6 @@ Route::middleware('auth:sanctum')->group(function () {
                     Route::delete('/{id}', 'destroy')->name('visites.destroy');
                 });
 
-                /**
                 // Adresse
                 Route::prefix('{compte_id}/adresses')->controller(AdresseController::class)->group(function () {
                     Route::get('/', 'index')->name('adresses.index');
@@ -108,6 +108,7 @@ Route::middleware('auth:sanctum')->group(function () {
                     Route::delete('/{id}', 'destroy')->name('adresses.destroy');
                 });
 
+                /**
                 // Téléphone
                 Route::prefix('{compte_id}/telephones')->controller(TelephoneController::class)->group(function () {
                     Route::get('/', 'index')->name('telephones.index');

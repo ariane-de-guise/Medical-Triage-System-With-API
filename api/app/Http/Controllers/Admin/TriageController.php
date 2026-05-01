@@ -49,7 +49,7 @@ class TriageController extends Controller
             $request->validate([
                 'compte_id' => 'required|exists:comptes,id',
                 'file' => 'required|exists:roles,name',
-                'priorite' => 'required|in:1,2,3,4,5',
+                'priorite' => 'required|in:0,1,2,3,4,5',
             ]);
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
@@ -120,7 +120,7 @@ class TriageController extends Controller
             $request->validate([
                 'triage_id' => 'required|exists:triages,id',
                 'file' => 'required|exists:roles,name',
-                'priorite' => 'required|in:1,2,3,4,5',
+                'priorite' => 'required|in:0,1,2,3,4,5',
             ]);
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
