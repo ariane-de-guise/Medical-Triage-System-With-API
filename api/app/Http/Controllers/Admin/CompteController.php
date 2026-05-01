@@ -42,14 +42,18 @@ class CompteController extends Controller
     }
 
     public function store(Request $request) {
-        $request->validate([
-            'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'min:6'],
-            'nom' => ['required', 'string', 'max:255'],
-            'prenom' => ['required', 'string', 'max:255'],
-            'date_naissance' => ['required', 'date', 'before:today', 'date_format:Y-m-d', 'after:1900-01-01'],
-            'role' => ['required', 'exists:roles,name'],
-        ]);
+        try {
+            $request->validate([
+                'email' => ['required', 'email', 'unique:users'],
+                'password' => ['required', 'min:6'],
+                'nom' => ['required', 'string', 'max:255'],
+                'prenom' => ['required', 'string', 'max:255'],
+                'date_naissance' => ['required', 'date', 'before:today', 'date_format:Y-m-d', 'after:1900-01-01'],
+                'role' => ['required', 'exists:roles,name'],
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
 
         try {
             $user = User::create([
@@ -114,14 +118,18 @@ class CompteController extends Controller
     }
 
     public function update(Request $request) {
-        $request->validate([
-            'compte_id' => 'required|exists:comptes,id',
-            'add_role' => 'nullable|exists:roles,name',
-            'remove_role' => 'nullable|exists:roles,name',
-            'nom' => 'required|string|max:255',
-            'prenom' => 'required|string|max:255',
-            'date_naissance' => 'required|date|before:today|date_format:Y-m-d|after:1900-01-01',
-        ]);
+        try {
+            $request->validate([
+                'compte_id' => 'required|exists:comptes,id',
+                'add_role' => 'nullable|exists:roles,name',
+                'remove_role' => 'nullable|exists:roles,name',
+                'nom' => 'required|string|max:255',
+                'prenom' => 'required|string|max:255',
+                'date_naissance' => 'required|date|before:today|date_format:Y-m-d|after:1900-01-01',
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
 
         $query = Compte::find($request->compte_id);
 

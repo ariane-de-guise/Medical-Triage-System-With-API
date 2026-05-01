@@ -92,11 +92,15 @@ class InfirmierController extends Controller
 
     public function update($id, Request $request)
     {
-        $request->validate([
-            'commentaire' => 'required|string',
-            'priorite' => 'required|integer',
-            'symptomes' => 'required|string',
-        ]);
+        try {
+            $request->validate([
+                'commentaire' => 'required|string',
+                'priorite' => 'required|integer',
+                'symptomes' => 'required|string',
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
 
         $user = User::findOrFail($id);
         $patient = TriageQueue::peek(0, $user);

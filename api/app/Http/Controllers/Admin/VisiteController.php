@@ -53,15 +53,19 @@ class VisiteController extends Controller
 
     public function store(Request $request, $compte_id)
     {
-        $request->validate([
-            'visite_date_heure' => ['required', 'date'],
-            'docteur_id' => ['required', 'exists:users,id'],
-            'symptomes' => ['required', 'array'],
-            'commentaire' => ['required', 'string'],
-            'description' => ['required', 'string'],
-            'priorite' => ['required', 'integer', 'min:1', 'max:5'],
-            'diagnostique_date_heure' => ['required', 'date'],
-        ]);
+        try {
+            $request->validate([
+                'visite_date_heure' => ['required', 'date'],
+                'docteur_id' => ['required', 'exists:users,id'],
+                'symptomes' => ['required', 'array'],
+                'commentaire' => ['required', 'string'],
+                'description' => ['required', 'string'],
+                'priorite' => ['required', 'integer', 'min:1', 'max:5'],
+                'diagnostique_date_heure' => ['required', 'date'],
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
 
         if (!User::find($compte_id)?->hasRole(Roles::Patient->value)) {
             return response()->json([
@@ -76,9 +80,11 @@ class VisiteController extends Controller
         }
 
         foreach ($request->symptomes as $symptome) {
-            if (!Symptomes::tryFrom($symptome)) {
+            $normalized = mb_strtolower(trim($symptome));
+
+            if (!Symptomes::tryFrom($normalized)) {
                 return response()->json([
-                    'message' => 'Symptome n\'est pas valide',
+                    'message' => "Symptome invalide: {$symptome}",
                 ], 400);
             }
         }
@@ -159,15 +165,19 @@ class VisiteController extends Controller
 
     public function update($compte_id, Request $request)
     {
-        $request->validate([
-            'visite_id' => ['required', 'exists:visites,id'],
-            'visite_date_heure' => ['required', 'date'],
-            'docteur_id' => ['required', 'exists:users,id'],
-            'commentaire' => ['required', 'string'],
-            'description' => ['required', 'string'],
-            'priorite' => ['required', 'integer', 'min:1', 'max:5'],
-            'diagnostique_date_heure' => ['required', 'date'],
-        ]);
+        try {
+            $request->validate([
+                'visite_id' => ['required', 'exists:visites,id'],
+                'visite_date_heure' => ['required', 'date'],
+                'docteur_id' => ['required', 'exists:users,id'],
+                'commentaire' => ['required', 'string'],
+                'description' => ['required', 'string'],
+                'priorite' => ['required', 'integer', 'min:1', 'max:5'],
+                'diagnostique_date_heure' => ['required', 'date'],
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
 
         $visite = Visite::where('patient_id', $compte_id)
             ->where('id', $request->visite_id)

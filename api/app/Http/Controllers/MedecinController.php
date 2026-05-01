@@ -78,10 +78,14 @@ class MedecinController extends Controller
     }
 
     public function update($id, Request $request) {
-        $request->validate([
-            'diagnostique' => 'required',
-            'date_heure' => 'required|date',
-        ]);
+        try {
+            $request->validate([
+                'diagnostique' => 'required',
+                'date_heure' => 'required|date',
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
 
         $user = User::findOrFail($id);
 

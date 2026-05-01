@@ -6,6 +6,7 @@ use App\Algorithms\Roles;
 use App\Algorithms\TriageQueue;
 use App\Models\Compte;
 use App\Models\Triage;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -44,11 +45,15 @@ class TriageController extends Controller
     }
 
     public function store(Request $request) {
-        $request->validate([
-            'compte_id' => 'required|exists:comptes,id',
-            'file' => 'required|exists:roles,name',
-            'priorite' => 'required|in:0,1,2,3,4,5,6,7,8,9',
-        ]);
+        try {
+            $request->validate([
+                'compte_id' => 'required|exists:comptes,id',
+                'file' => 'required|exists:roles,name',
+                'priorite' => 'required|in:1,2,3,4,5',
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
 
         $compte = Compte::with('user.roles')->find($request->compte_id);
 
@@ -111,11 +116,15 @@ class TriageController extends Controller
     }
 
     public function update(Request $request) {
-        $request->validate([
-            'triage_id' => 'required|exists:triages,id',
-            'file' => 'required|exists:roles,name',
-            'priorite' => 'required|in:0,1,2,3,4,5,6,7,8,9',
-        ]);
+        try {
+            $request->validate([
+                'triage_id' => 'required|exists:triages,id',
+                'file' => 'required|exists:roles,name',
+                'priorite' => 'required|in:1,2,3,4,5',
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
 
         $query = Triage::find($request->triage_id);
 

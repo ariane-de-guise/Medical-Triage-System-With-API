@@ -8,47 +8,47 @@
                 <div class="bg-white shadow-md rounded-xl p-5 border border-gray-200">
                     <div class="flex justify-between items-center mb-3">
                         <h4 class="font-semibold text-lg text-gray-800">
-                            {{ $triage['compte']['prenom'] }} {{ $triage['compte']['nom'] }}
+                            Visite du {{ $visite['date_heure'] }}
                         </h4>
                         <div class="gap-2 flex">
                             <span class="text-sm px-3 py-1 rounded-full bg-teal-100 text-teal-700">
-                                Priorité {{ $triage['priority'] }}
-                            </span>
-                            <span class="text-sm px-3 py-1 rounded-full bg-teal-200 text-teal-700">
-                                {{ $triage['file_attente'] }}
+                                Priorité {{ $visite['diagnostique']['priorite'] }}
                             </span>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
                         <div>
-                            <p><span class="font-semibold">Personnel en charge :</span><br>
-                                {{ $triage['personnel']['compte']['prenom'] }} {{ $triage['personnel']['compte']['nom'] }}
+                            <p><span class="font-semibold">Docteur assigné :</span><br>
+                                {{ $visite['docteur']['prenom'] }} {{ $visite['docteur']['nom'] }}
                             </p>
                             <p class="mt-2">
-                                <span class="font-semibold">En attente depuis {{ (int) (now()->diffInHours($triage['created_at'], true)) }} heure(s)</span>
+                                <span class="font-semibold">A attendu {{ (int) (\Carbon\Carbon::parse($visite['diagnostique']['date_heure'])->diffInHours($visite['date_heure'], true)) }} heure(s)</span>
                             </p>
                         </div>
                         <div>
-                            <p><span class="font-semibold">Date de naissance :</span><br>
-                                {{ $triage['compte']['date_naissance'] }}
+                            <p><span class="font-semibold">Commentaires de l'infirmier :</span><br>
+                                {{ $visite['diagnostique']['commentaire'] }}
+                            </p>
+                            <p><span class="font-semibold">Commentaires du docteur :</span><br>
+                                {{ $visite['diagnostique']['description'] }}
                             </p>
                         </div>
-                        <form method="POST" action="{{ route('triages.destroy', $triage['id']) }}">
+                        <form method="POST" action="{{ route('visites.destroy', [$compte_id, $visite['id']]) }}">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
-                                Retirer {{ $triage['compte']['prenom'] }} de la file
+                                Supprimer la visite
                             </button>
                         </form>
-                        <form method="GET" action="{{ route('triages.edit', $triage['id']) }}">
+                        <form method="GET" action="{{ route('visites.edit', [$compte_id, $visite['id']]) }}">
                             <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
-                                Changer {{ $triage['compte']['prenom'] }} de file
+                                Modifier les détails de la visite
                             </button>
                         </form>
                     </div>
                 </div>
             </div>
-            <form method="GET" action="{{ route('triages.index') }}">
+            <form method="GET" action="{{ route('visites.index', $compte_id) }}">
                 <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
                     Retour au tableau de bord
                 </button>

@@ -49,16 +49,8 @@
                                 <p><span class="font-semibold">👨‍⚕️ Docteur :</span><br>
                                     {{ $visite['docteur']['prenom'] }} {{ $visite['docteur']['nom'] }}
                                 </p>
-                                <p class="mt-2">
-                                    <span class="font-semibold">🩺 Diagnostic :</span><br>
-                                    {{ $visite['diagnostique']['commentaire'] }}
-                                </p>
                             </div>
                             <div>
-                                <p>
-                                    <span class="font-semibold">💊 Traitement :</span><br>
-                                    {{ $visite['diagnostique']['description'] }}
-                                </p>
                                 <p class="mt-2 text-xs text-gray-500">
                                     Diagnostiqué le {{ $visite['diagnostique']['date_heure'] }}
                                 </p>

@@ -6,6 +6,7 @@ use App\Algorithms\Roles;
 use App\Algorithms\TimeCard;
 use App\Models\Compte;
 use App\Models\Personnel;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -42,10 +43,14 @@ class PersonnelController extends Controller
     }
 
     public function store(Request $request) {
-        $request->validate([
-            'compte_id' => 'required|exists:comptes,id',
-            'role' => 'required|exists:roles,name',
-        ]);
+        try {
+            $request->validate([
+                'compte_id' => 'required|exists:comptes,id',
+                'role' => 'required|exists:roles,name',
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
 
         $compte = Compte::with('user.roles')->find($request->compte_id);
 
@@ -105,10 +110,14 @@ class PersonnelController extends Controller
     }
 
     public function update(Request $request) {
-        $request->validate([
-            'personnel_id' => 'required|exists:personnels,id',
-            'role' => 'required|exists:roles,name',
-        ]);
+        try {
+            $request->validate([
+                'personnel_id' => 'required|exists:personnels,id',
+                'role' => 'required|exists:roles,name',
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
 
         $query = Personnel::find($request->personnel_id);
 

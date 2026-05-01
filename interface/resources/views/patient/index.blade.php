@@ -46,14 +46,14 @@
                                         </p>
 
                                         <p class="mt-2">
-                                            <span class="font-semibold">🩺 Diagnostic :</span><br>
+                                            <span class="font-semibold">🩺 Commentaires de l'infirmier :</span><br>
                                             {{ $visite['diagnostique']['commentaire'] }}
                                         </p>
                                     </div>
 
                                     <div>
                                         <p>
-                                            <span class="font-semibold">💊 Traitement :</span><br>
+                                            <span class="font-semibold">💊 Notes du docteur :</span><br>
                                             {{ $visite['diagnostique']['description'] }}
                                         </p>
 
