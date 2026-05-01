@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdresseController;
 use App\Http\Controllers\Admin\CompteController;
 use App\Http\Controllers\Admin\PersonnelController;
+use App\Http\Controllers\Admin\TelephoneController;
 use App\Http\Controllers\Admin\TriageController;
 use App\Http\Controllers\Admin\VisiteController;
 use App\Http\Controllers\AuthController;
@@ -108,18 +109,15 @@ Route::middleware('auth:sanctum')->group(function () {
                     Route::delete('/{id}', 'destroy')->name('adresses.destroy');
                 });
 
-                /**
                 // Téléphone
                 Route::prefix('{compte_id}/telephones')->controller(TelephoneController::class)->group(function () {
                     Route::get('/', 'index')->name('telephones.index');
-                    Route::get('/create', 'create')->name('telephones.create');
                     Route::post('/store', 'store')->name('telephones.store');
                     Route::get('/{id}', 'show')->name('telephones.show');
                     Route::get('/{id}/edit', 'edit')->name('telephones.edit');
                     Route::put('/update', 'update')->name('telephones.update');
                     Route::delete('/{id}', 'destroy')->name('telephones.destroy');
                 });
-                */
             });
         });
     });
