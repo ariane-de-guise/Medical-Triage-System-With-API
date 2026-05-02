@@ -41,7 +41,8 @@
                     <label for="priorite" class="block text-sm text-gray-600 mb-1">
                         Priorité
                     </label>
-                    <input type="number" id="priorite" name="priorite" class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
+                    <input type="number" id="priorite" name="priorite"
+                           class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
                 </div>
                 <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-200 text-teal-700 rounded">
                     Ajouter le patient à la file

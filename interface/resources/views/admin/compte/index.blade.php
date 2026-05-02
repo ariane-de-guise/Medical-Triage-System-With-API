@@ -10,7 +10,13 @@
                        class="bg-teal-500 hover:bg-teal-600 text-white text-sm px-4 py-2 rounded-md whitespace-nowrap transition">
                         Connecter un employé
                     </a>
-                    <form method="GET" action="{{ route('comptes.index') }}">
+                    <form method="GET" id="filter-form" action="{{ route('comptes.index') }}">
+                        <input
+                            type="number"
+                            name="page"
+                            placeholder="1 - {{ $max_page }}"
+                            value="{{ $current_page }}"
+                            class="w-20 px-2 py-1.5 text-sm border rounded-md focus:ring-1 focus:ring-teal-300 focus:outline-none">
                         <input
                             type="number"
                             name="annee_naissance"
@@ -42,7 +48,8 @@
                                 {{ $compte['date_naissance'] }}
                             </p>
                             <form method="GET" action="{{ route('comptes.show', $compte['id']) }}">
-                                <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
+                                <button type="submit"
+                                        class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
                                     Voir les détails
                                 </button>
                             </form>

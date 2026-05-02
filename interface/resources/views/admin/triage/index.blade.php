@@ -10,7 +10,7 @@
                        class="bg-teal-500 hover:bg-teal-600 text-white text-sm px-4 py-2 rounded-md whitespace-nowrap transition">
                         Ajouter un patient à la file
                     </a>
-                    <form method="GET" action="{{ route('triages.index') }}">
+                    <form method="GET" id="filter-form" action="{{ route('triages.index') }}">
                         <input
                             type="number"
                             name="priorite"
@@ -55,7 +55,8 @@
                                 <span class="font-semibold">En attente depuis {{ (int) (now()->diffInHours($triage['created_at'], true)) }} heure(s)</span>
                             </p>
                             <form method="GET" action="{{ route('triages.show', $triage['id']) }}">
-                                <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
+                                <button type="submit"
+                                        class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
                                     Voir les détails
                                 </button>
                             </form>

@@ -56,15 +56,21 @@
                     <label for="visite_date_heure" class="block text-sm text-gray-600 mb-1">
                         Date du début de la visite
                     </label>
-                    <input type="datetime-local" id="visite_date_heure" name="visite_date_heure" value="{{ old('visite_date_heure') }}" class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
+                    <input type="datetime-local" id="visite_date_heure" name="visite_date_heure"
+                           value="{{ old('visite_date_heure') }}"
+                           class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
                     <label for="diagnostique_date_heure" class="block text-sm text-gray-600 mb-1">
                         Date de fin de la visite
                     </label>
-                    <input type="datetime-local" id="diagnostique_date_heure" name="diagnostique_date_heure" value="{{ old('diagnostique_date_heure') }}" class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
+                    <input type="datetime-local" id="diagnostique_date_heure" name="diagnostique_date_heure"
+                           value="{{ old('diagnostique_date_heure') }}"
+                           class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
                     <label for="commentaire" class="font-semibold">Commentaires de l'infirmier :</label><br>
-                    <textarea id="commentaire" name="commentaire" class="mt-1 block w-full bg-teal-50 border-gray-300 rounded-md" rows="4"></textarea>
+                    <textarea id="commentaire" name="commentaire"
+                              class="mt-1 block w-full bg-teal-50 border-gray-300 rounded-md" rows="4"></textarea>
                     <label for="description" class="font-semibold">Notes du docteur :</label><br>
-                    <textarea id="description" name="description" class="mt-1 block w-full bg-teal-50 border-gray-300 rounded-md" rows="4"></textarea>
+                    <textarea id="description" name="description"
+                              class="mt-1 block w-full bg-teal-50 border-gray-300 rounded-md" rows="4"></textarea>
                 </div>
                 <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-200 text-teal-700 rounded">
                     Ajouter la visite au patient

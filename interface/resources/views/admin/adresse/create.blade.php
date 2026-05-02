@@ -7,7 +7,6 @@
             <form method="POST" action="{{ route('adresses.store', $compte_id) }}">
                 @csrf
                 <div>
-                    <input type="hidden" name="adresse_id" value="{{ old('id') }}">
                     <label for="numero" class="font-semibold">Numéro civique :</label><br>
                     <input type="number" id="numero" name="numero" value="{{ old('numero') }}"
                            class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">

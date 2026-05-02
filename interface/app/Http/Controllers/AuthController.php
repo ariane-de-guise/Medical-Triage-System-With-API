@@ -3,20 +3,36 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Http;
+use Illuminate\View\View;
 
+/**
+ * Contrôleur d'authentification
+ * Gère les opérations d'authentification, d'enregistrement et de déconnexion des utilisateurs
+ */
 class AuthController extends Controller
 {
-    public function login() {
+    /**
+     * Affiche le formulaire de connexion
+     *
+     * @return View
+     */
+    public function login()
+    {
         return view('auth.login');
     }
 
     /**
+     * Affiche le formulaire d'enregistrement avec les provinces et types disponibles
+     *
+     * @return View
      * @throws ConnectionException
      */
-    public function register() {
+    public function register()
+    {
         try {
             $provinces = collect(Http::get('http://host.docker.internal:81/api/provinces')->json())
                 ->pluck('name')
@@ -37,6 +53,11 @@ class AuthController extends Controller
     }
 
     /**
+     * Traite la demande de connexion
+     * Valide les identifiants et crée une session utilisateur
+     *
+     * @param Request $request Les données de connexion (email, password)
+     * @return RedirectResponse
      * @throws ConnectionException
      */
     public function sendLoginRequest(Request $request)
@@ -71,6 +92,9 @@ class AuthController extends Controller
     }
 
     /**
+     * Déconnecte l'utilisateur et détruit la session
+     *
+     * @return RedirectResponse
      * @throws ConnectionException
      */
     public function logout()
@@ -89,6 +113,10 @@ class AuthController extends Controller
     }
 
     /**
+     * Traite la demande d'enregistrement d'un nouvel utilisateur
+     *
+     * @param Request $request Les données d'enregistrement (email, password, informations personnelles, etc.)
+     * @return RedirectResponse
      * @throws ConnectionException
      */
     public function sendRegisterRequest(Request $request)

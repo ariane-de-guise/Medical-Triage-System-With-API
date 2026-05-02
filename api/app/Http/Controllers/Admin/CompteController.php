@@ -28,9 +28,13 @@ class CompteController extends Controller
             });
         }
 
-        $comptes = $query->get();
+        $paginator = $query->paginate(10);
 
-        return response()->json($comptes);
+        return response()->json([
+            'comptes' => $paginator->items(),
+            'current_page' => $paginator->currentPage(),
+            'max_page' => $paginator->lastPage(),
+        ]);
     }
 
     public function create() {

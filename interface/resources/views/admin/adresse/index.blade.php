@@ -10,7 +10,7 @@
                        class="bg-teal-500 hover:bg-teal-600 text-white text-sm px-4 py-2 rounded-md whitespace-nowrap transition">
                         Ajouter une adresse au compte
                     </a>
-                    <form method="GET" action="{{ route('adresses.index', $compte_id) }}">
+                    <form method="GET" id="filter-form" action="{{ route('adresses.index', $compte_id) }}">
                         <select
                             name="province"
                             class="w-36 px-2 py-1.5 text-sm border rounded-md focus:ring-1 focus:ring-teal-300 focus:outline-none">

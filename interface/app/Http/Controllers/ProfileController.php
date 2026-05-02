@@ -1,13 +1,23 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Http;
+use Illuminate\View\View;
 
+/**
+ * Contrôleur de profil
+ * Gère l'affichage du profil utilisateur
+ */
 class ProfileController extends Controller
 {
     /**
+     * Affiche le profil détaillé de l'utilisateur connecté
+     *
+     * @return RedirectResponse|View
      * @throws ConnectionException
      */
     public function show()

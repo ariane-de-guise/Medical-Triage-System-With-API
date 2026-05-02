@@ -3,13 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Http;
+use Illuminate\View\View;
 
+/**
+ * Contrôleur du médecin
+ * Gère les consultations et diagnostiques des patients par le médecin
+ */
 class MedecinController extends Controller
 {
     /**
+     * Affiche la page d'accueil du médecin avec la liste des patients
+     *
+     * @return RedirectResponse|View
      * @throws ConnectionException
      */
     public function index()
@@ -30,9 +39,13 @@ class MedecinController extends Controller
     }
 
     /**
+     * Affiche les détails de la consultation d'un patient
+     *
+     * @return RedirectResponse|View
      * @throws ConnectionException
      */
-    public function show() {
+    public function show()
+    {
         $userId = session('user')['id'] ?? null;
         $response = Http::withToken(session('token'))->acceptJson()->get("http://host.docker.internal:81/api/medecins/$userId/consultation");
 
@@ -46,9 +59,13 @@ class MedecinController extends Controller
     }
 
     /**
+     * Déconnecte le médecin de son service
+     *
+     * @return RedirectResponse
      * @throws ConnectionException
      */
-    public function destroy() {
+    public function destroy()
+    {
         $userId = session('user')['id'] ?? null;
         $response = Http::withToken(session('token'))->acceptJson()->delete("http://host.docker.internal:81/api/medecins/$userId");
 
@@ -60,9 +77,13 @@ class MedecinController extends Controller
     }
 
     /**
+     * Connecte le médecin à son service
+     *
+     * @return RedirectResponse
      * @throws ConnectionException
      */
-    public function store() {
+    public function store()
+    {
         $userId = session('user')['id'] ?? null;
         $response = Http::withToken(session('token'))->acceptJson()->post("http://host.docker.internal:81/api/medecins/$userId");
 
@@ -74,9 +95,14 @@ class MedecinController extends Controller
     }
 
     /**
+     * Met à jour la consultation d'un patient avec le diagnostique
+     *
+     * @param Request $request Les informations du diagnostique
+     * @return RedirectResponse
      * @throws ConnectionException
      */
-    public function update(Request $request) {
+    public function update(Request $request)
+    {
         $userId = session('user')['id'] ?? null;
         $response = Http::withToken(session('token'))->acceptJson()->patch("http://host.docker.internal:81/api/medecins/$userId", [
             'diagnostique' => $request->diagnostique,

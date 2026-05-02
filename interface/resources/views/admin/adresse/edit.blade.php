@@ -10,16 +10,20 @@
                 <div>
                     <input type="hidden" name="adresse_id" value="{{ $adresse['id'] }}">
                     <label for="numero" class="font-semibold">Numéro civique :</label><br>
-                    <input type="number" id="numero" name="numero" value="{{ $adresse['numero'] }}" class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
+                    <input type="number" id="numero" name="numero" value="{{ $adresse['numero'] }}"
+                           class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
                     <br><br>
                     <label for="rue" class="font-semibold">Rue :</label><br>
-                    <input type="text" id="rue" name="rue" value="{{ $adresse['rue'] }}" class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
+                    <input type="text" id="rue" name="rue" value="{{ $adresse['rue'] }}"
+                           class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
                     <br><br>
                     <label for="ville" class="font-semibold">Ville :</label><br>
-                    <input type="text" id="ville" name="ville" value="{{ $adresse['ville'] }}" class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
+                    <input type="text" id="ville" name="ville" value="{{ $adresse['ville'] }}"
+                           class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
                     <br><br>
                     <label for="code_postal" class="font-semibold">Code postal :</label><br>
-                    <input type="text" id="code_postal" name="code_postal" value="{{ $adresse['code_postal'] }}" class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
+                    <input type="text" id="code_postal" name="code_postal" value="{{ $adresse['code_postal'] }}"
+                           class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
                     <br><br>
                     <label for="province" class="font-semibold">
                         Province

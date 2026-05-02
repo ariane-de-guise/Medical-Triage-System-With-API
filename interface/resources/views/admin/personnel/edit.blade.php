@@ -12,7 +12,9 @@
                     <label for="compte_id" class="block text-sm text-gray-600 mb-1">
                         Employé
                     </label>
-                    <input type="text" id="compte_id" name="compte_id" value="{{ $personnel['compte']['prenom'] }} {{ $personnel['compte']['nom'] }}" disabled class="w-full px-4 py-2 border rounded-xl bg-gray-100 focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
+                    <input type="text" id="compte_id" name="compte_id"
+                           value="{{ $personnel['compte']['prenom'] }} {{ $personnel['compte']['nom'] }}" disabled
+                           class="w-full px-4 py-2 border rounded-xl bg-gray-100 focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
                     <label for="role" class="block text-sm text-gray-600 mb-1 mt-4">
                         Rôle
                     </label>
@@ -23,7 +25,8 @@
                         class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
                         <option value="">Choisissez un rôle</option>
                         @foreach($roles as $role)
-                            <option value="{{ $role }}" {{ old('role', $personnel['role']) == $role ? 'selected' : '' }}>
+                            <option
+                                value="{{ $role }}" {{ old('role', $personnel['role']) == $role ? 'selected' : '' }}>
                                 {{ ucfirst($role) }}
                             </option>
                         @endforeach

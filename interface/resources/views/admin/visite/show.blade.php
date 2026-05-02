@@ -36,12 +36,14 @@
                         <form method="POST" action="{{ route('visites.destroy', [$compte_id, $visite['id']]) }}">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
+                            <button type="submit"
+                                    class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
                                 Supprimer la visite
                             </button>
                         </form>
                         <form method="GET" action="{{ route('visites.edit', [$compte_id, $visite['id']]) }}">
-                            <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
+                            <button type="submit"
+                                    class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
                                 Modifier les détails de la visite
                             </button>
                         </form>

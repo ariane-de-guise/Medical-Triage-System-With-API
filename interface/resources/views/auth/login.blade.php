@@ -1,11 +1,8 @@
 <x-app-layout>
     <div class="max-w-md mx-auto">
-        <!-- Title -->
         <h2 class="text-2xl font-semibold text-gray-700 mb-6 text-center">
             Re-bienvenue !
         </h2>
-
-        <!-- Card -->
         <div class="bg-white p-6 rounded-2xl shadow-md">
             @if ($errors->any())
                 <div class="mb-4 p-3 bg-red-100 text-red-600 rounded-xl">
@@ -16,11 +13,8 @@
                     </ul>
                 </div>
             @endif
-
             <form method="POST" action="{{ route('login') }}" class="space-y-5">
                 @csrf
-
-                <!-- Email -->
                 <div>
                     <label for="email" class="block text-sm text-gray-600 mb-1">
                         Courriel
@@ -35,8 +29,6 @@
                         placeholder="you@example.com"
                     />
                 </div>
-
-                <!-- Password -->
                 <div>
                     <label for="password" class="block text-sm text-gray-600 mb-1">
                         Mot de passe
@@ -50,8 +42,6 @@
                         placeholder="••••••••"
                     />
                 </div>
-
-                <!-- Button -->
                 <div>
                     <button
                         type="submit"
@@ -60,9 +50,7 @@
                         Se connecter
                     </button>
                 </div>
-
             </form>
         </div>
-
     </div>
 </x-app-layout>

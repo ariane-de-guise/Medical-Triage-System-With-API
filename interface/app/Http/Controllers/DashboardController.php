@@ -2,12 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Http;
+use Illuminate\View\View;
 
+/**
+ * Contrôleur du tableau de bord
+ * Gère l'affichage du tableau de bord principal avec les informations utilisateur
+ */
 class DashboardController extends Controller
 {
-    public function index() {
+    /**
+     * Affiche le tableau de bord avec les informations du profil et les rôles de l'utilisateur
+     *
+     * @return RedirectResponse|View
+     * @throws ConnectionException
+     */
+    public function index()
+    {
         $userId = session('user')['id'] ?? null;
 
         if (!$userId) {

@@ -1,16 +1,11 @@
 <x-app-layout>
     <div class="max-w-md mx-auto">
-        <!-- Title -->
         <h2 class="text-2xl font-semibold text-gray-700 mb-6 text-center">
             S'inscrire pour accéder à votre espace personnel
         </h2>
-
-        <!-- Card -->
         <div class="bg-white p-6 rounded-2xl shadow-md">
             <form method="POST" action="{{ route('register') }}" class="space-y-5">
                 @csrf
-
-                <!-- Email -->
                 <div>
                     <label for="email" class="block text-sm text-gray-600 mb-1">
                         Courriel
@@ -25,8 +20,6 @@
                         placeholder="you@example.com"
                     />
                 </div>
-
-                <!-- Password -->
                 <div>
                     <label for="password" class="block text-sm text-gray-600 mb-1">
                         Mot de passe
@@ -40,8 +33,6 @@
                         placeholder="••••••••"
                     />
                 </div>
-
-                <!-- Nom -->
                 <div>
                     <label for="nom" class="block text-sm text-gray-600 mb-1">
                         Nom
@@ -56,8 +47,6 @@
                         placeholder="Doe"
                     />
                 </div>
-
-                <!-- Prénom -->
                 <div>
                     <label for="prenom" class="block text-sm text-gray-600 mb-1">
                         Prénom
@@ -72,8 +61,6 @@
                         placeholder="John"
                     />
                 </div>
-
-                <!-- Date de naissance -->
                 <div>
                     <label for="date_naissance" class="block text-sm text-gray-600 mb-1">
                         Date de naissance
@@ -87,8 +74,6 @@
                         class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition"
                     />
                 </div>
-
-                <!-- Numéro civique -->
                 <div>
                     <label for="numero" class="block text-sm text-gray-600 mb-1">
                         Numéro civique
@@ -102,8 +87,6 @@
                         class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition"
                     />
                 </div>
-
-                <!-- Rue -->
                 <div>
                     <label for="rue" class="block text-sm text-gray-600 mb-1">
                         Rue
@@ -117,8 +100,6 @@
                         class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition"
                     />
                 </div>
-
-                <!-- Ville -->
                 <div>
                     <label for="ville" class="block text-sm text-gray-600 mb-1">
                         Ville
@@ -132,8 +113,6 @@
                         class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition"
                     />
                 </div>
-
-                <!-- Province -->
                 <div>
                     <label for="province" class="block text-sm text-gray-600 mb-1">
                         Province
@@ -153,8 +132,6 @@
                         @endforeach
                     </select>
                 </div>
-
-                <!-- Code postal -->
                 <div>
                     <label for="code_postal" class="block text-sm text-gray-600 mb-1">
                         Code postal
@@ -168,8 +145,6 @@
                         class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition"
                     />
                 </div>
-
-                <!-- Type de l'adresse -->
                 <div>
                     <label for="type" class="block text-sm text-gray-600 mb-1">
                         Type de votre adresse
@@ -189,8 +164,6 @@
                         @endforeach
                     </select>
                 </div>
-
-                <!-- Téléphone -->
                 <div>
                     <label for="telephone" class="block text-sm text-gray-600 mb-1">
                         Téléphone
@@ -204,8 +177,6 @@
                         class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition"
                     />
                 </div>
-
-                <!-- Button -->
                 <div>
                     <button
                         type="submit"

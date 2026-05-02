@@ -3,12 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Http;
+use Illuminate\View\View;
 
+/**
+ * Contrôleur du patient
+ * Gère l'inscription et la gestion de la file d'attente du patient
+ */
 class PatientController extends Controller
 {
     /**
+     * Affiche la page d'accueil du patient avec sa position dans la file d'attente
+     *
+     * @return RedirectResponse|View
      * @throws ConnectionException
      */
     public function index()
@@ -28,9 +37,13 @@ class PatientController extends Controller
     }
 
     /**
+     * Ajoute le patient à la file d'attente
+     *
+     * @return RedirectResponse
      * @throws ConnectionException
      */
-    public function store() {
+    public function store()
+    {
         $userId = session('user')['id'] ?? null;
 
         $response = Http::withToken(session('token'))->acceptJson()->post("http://host.docker.internal:81/api/patients/$userId");
@@ -43,9 +56,13 @@ class PatientController extends Controller
     }
 
     /**
+     * Retire le patient de la file d'attente
+     *
+     * @return RedirectResponse
      * @throws ConnectionException
      */
-    public function destroy() {
+    public function destroy()
+    {
         $userId = session('user')['id'] ?? null;
 
         $response = Http::withToken(session('token'))->acceptJson()->delete("http://host.docker.internal:81/api/patients/$userId");

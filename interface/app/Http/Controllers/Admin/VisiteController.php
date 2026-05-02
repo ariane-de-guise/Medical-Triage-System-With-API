@@ -3,22 +3,34 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Http;
+use Illuminate\View\View;
 
+/**
+ * Contrôleur des visites médicales
+ * Gère les opérations CRUD sur les visites et consultations médicales des patients
+ */
 class VisiteController extends Controller
 {
     /**
+     * Affiche la liste des visites d'un patient avec filtrage par médecin et date
+     *
+     * @param Request $request Les paramètres de filtrage
+     * @param int $compte_id L'identifiant du patient
+     * @return RedirectResponse|View
      * @throws ConnectionException
      */
-    public function index(Request $request, $compte_id) {
+    public function index(Request $request, int $compte_id)
+    {
         $query = array_filter([
             'docteur_id' => $request->docteur_id,
             'date_heure' => $request->date_heure,
         ]);
 
-        $response = Http::withToken(session('token'))->acceptJson()->get("http://host.docker.internal:81/api/admins/comptes/{$compte_id}/visites", $query);
+        $response = Http::withToken(session('token'))->acceptJson()->get("http://host.docker.internal:81/api/admins/comptes/$compte_id/visites", $query);
 
         if ($response->failed()) {
             return redirect()->back()->with('error', $response->json()['message']);
@@ -31,10 +43,15 @@ class VisiteController extends Controller
     }
 
     /**
+     * Affiche le formulaire de création d'une nouvelle visite médicale
+     *
+     * @param int $compte_id L'identifiant du patient
+     * @return RedirectResponse|View
      * @throws ConnectionException
      */
-    public function create($compte_id) {
-        $response = Http::withToken(session('token'))->acceptJson()->get("http://host.docker.internal:81/api/admins/comptes/{$compte_id}/visites/create");
+    public function create(int $compte_id)
+    {
+        $response = Http::withToken(session('token'))->acceptJson()->get("http://host.docker.internal:81/api/admins/comptes/$compte_id/visites/create");
 
         if ($response->failed()) {
             return redirect()->back()->with('error', $response->json()['message']);
@@ -48,10 +65,16 @@ class VisiteController extends Controller
     }
 
     /**
+     * Enregistre une nouvelle visite médicale pour un patient
+     *
+     * @param Request $request Les données de la visite
+     * @param int $compte_id L'identifiant du patient
+     * @return RedirectResponse
      * @throws ConnectionException
      */
-    public function store(Request $request, $compte_id) {
-        $response = Http::withToken(session('token'))->acceptJson()->post("http://host.docker.internal:81/api/admins/comptes/{$compte_id}/visites/store", [
+    public function store(Request $request, int $compte_id)
+    {
+        $response = Http::withToken(session('token'))->acceptJson()->post("http://host.docker.internal:81/api/admins/comptes/$compte_id/visites/store", [
             'docteur_id' => $request->docteur_id,
             'visite_date_heure' => $request->visite_date_heure,
             'symptomes' => $request->symptomes,
@@ -69,10 +92,16 @@ class VisiteController extends Controller
     }
 
     /**
+     * Affiche les détails d'une visite médicale spécifique
+     *
+     * @param int $compte_id L'identifiant du patient
+     * @param int $id L'identifiant de la visite
+     * @return RedirectResponse|View
      * @throws ConnectionException
      */
-    public function show($compte_id, $id) {
-        $response = Http::withToken(session('token'))->acceptJson()->get("http://host.docker.internal:81/api/admins/comptes/{$compte_id}/visites/{$id}");
+    public function show(int $compte_id, int $id)
+    {
+        $response = Http::withToken(session('token'))->acceptJson()->get("http://host.docker.internal:81/api/admins/comptes/$compte_id/visites/$id");
 
         if ($response->failed()) {
             return redirect()->back()->with('error', $response->json()['message']);
@@ -84,10 +113,16 @@ class VisiteController extends Controller
     }
 
     /**
+     * Affiche le formulaire de modification d'une visite médicale
+     *
+     * @param int $compte_id L'identifiant du patient
+     * @param int $id L'identifiant de la visite
+     * @return RedirectResponse|View
      * @throws ConnectionException
      */
-    public function edit($compte_id, $id) {
-        $response = Http::withToken(session('token'))->acceptJson()->get("http://host.docker.internal:81/api/admins/comptes/{$compte_id}/visites/{$id}/edit");
+    public function edit(int $compte_id, int $id)
+    {
+        $response = Http::withToken(session('token'))->acceptJson()->get("http://host.docker.internal:81/api/admins/comptes/$compte_id/visites/$id/edit");
 
         if ($response->failed()) {
             return redirect()->back()->with('error', $response->json()['message']);
@@ -101,10 +136,16 @@ class VisiteController extends Controller
     }
 
     /**
+     * Met à jour une visite médicale existante
+     *
+     * @param Request $request Les données mises à jour
+     * @param int $compte_id L'identifiant du patient
+     * @return RedirectResponse
      * @throws ConnectionException
      */
-    public function update(Request $request, $compte_id) {
-        $response = Http::withToken(session('token'))->acceptJson()->put("http://host.docker.internal:81/api/admins/comptes/{$compte_id}/visites/update", [
+    public function update(Request $request, int $compte_id)
+    {
+        $response = Http::withToken(session('token'))->acceptJson()->put("http://host.docker.internal:81/api/admins/comptes/$compte_id/visites/update", [
             'docteur_id' => $request->docteur_id,
             'visite_date_heure' => $request->visite_date_heure,
             'visite_id' => $request->visite_id,
@@ -122,10 +163,16 @@ class VisiteController extends Controller
     }
 
     /**
+     * Supprime une visite médicale
+     *
+     * @param int $compte_id L'identifiant du patient
+     * @param int $id L'identifiant de la visite
+     * @return RedirectResponse
      * @throws ConnectionException
      */
-    public function destroy($compte_id, $id) {
-        $response = Http::withToken(session('token'))->acceptJson()->delete("http://host.docker.internal:81/api/admins/comptes/{$compte_id}/visites/{$id}");
+    public function destroy(int $compte_id, int $id)
+    {
+        $response = Http::withToken(session('token'))->acceptJson()->delete("http://host.docker.internal:81/api/admins/comptes/$compte_id/visites/$id");
 
         if ($response->failed()) {
             return redirect()->back()->with('error', $response->json()['message']);

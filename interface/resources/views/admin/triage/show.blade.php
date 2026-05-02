@@ -36,12 +36,14 @@
                         <form method="POST" action="{{ route('triages.destroy', $triage['id']) }}">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
+                            <button type="submit"
+                                    class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
                                 Retirer {{ $triage['compte']['prenom'] }} de la file
                             </button>
                         </form>
                         <form method="GET" action="{{ route('triages.edit', $triage['id']) }}">
-                            <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
+                            <button type="submit"
+                                    class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
                                 Changer {{ $triage['compte']['prenom'] }} de file
                             </button>
                         </form>

@@ -23,8 +23,10 @@
                             {{ $patient['latest_visite']['diagnostique']['commentaire'] }}
                         </p>
                         <br>
-                        <label for="diagnostique" class="mt-4 font-semibold" >Diagnostic</label>
-                        <input id="diagnostique" type="text" class="mt-1 block w-full border-gray-300 bg-white focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" name="diagnostique" required />
+                        <label for="diagnostique" class="mt-4 font-semibold">Diagnostic</label>
+                        <input id="diagnostique" type="text"
+                               class="mt-1 block w-full border-gray-300 bg-white focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                               name="diagnostique" required/>
                         <br>
                         <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
                             Terminer la consultation de ce patient
@@ -34,7 +36,8 @@
                     <h2 class="text-md font-medium mb-2">Vous n'êtes pas connecté.</h2>
                 @endif
                 <hr class="my-6 border-gray-300">
-                <a href="{{ route('medecin') }}" class="inline-block mt-4 px-4 py-2 bg-teal-500 text-white rounded">Retour à la file d'attente</a>
+                <a href="{{ route('medecin') }}" class="inline-block mt-4 px-4 py-2 bg-teal-500 text-white rounded">Retour
+                    à la file d'attente</a>
             </div>
         </div>
     </div>

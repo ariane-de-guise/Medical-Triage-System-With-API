@@ -19,30 +19,40 @@
                             {{ $compte['date_naissance'] }}
                         </p>
                         <p><span class="font-semibold">Rôles :</span><br>
-                        @foreach($roles as $role)
+                            @foreach($roles as $role)
                                 {{ $role }}
-                        @endforeach
+                            @endforeach
                         </p>
                         <form method="POST" action="{{ route('comptes.destroy', $compte['id']) }}">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
+                            <button type="submit"
+                                    class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
                                 Supprimer le compte de {{ $compte['prenom'] }}
                             </button>
                         </form>
                         <form method="GET" action="{{ route('comptes.edit', $compte['id']) }}">
-                            <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
+                            <button type="submit"
+                                    class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
                                 Modifier le compte de {{ $compte['prenom'] }}
                             </button>
                         </form>
                         <form method="GET" action="{{ route('visites.index', $compte['id']) }}">
-                            <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
+                            <button type="submit"
+                                    class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
                                 Voir les visites de {{ $compte['prenom'] }}
                             </button>
                         </form>
                         <form method="GET" action="{{ route('adresses.index', $compte['id']) }}">
-                            <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
+                            <button type="submit"
+                                    class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
                                 Voir les adresses de {{ $compte['prenom'] }}
+                            </button>
+                        </form>
+                        <form method="GET" action="{{ route('telephones.index', $compte['id']) }}">
+                            <button type="submit"
+                                    class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
+                                Voir les numéros de téléphone de {{ $compte['prenom'] }}
                             </button>
                         </form>
                     </div>

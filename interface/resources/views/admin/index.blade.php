@@ -1,7 +1,7 @@
 <x-app-layout>
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Espace Admin
-        </h2>
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        Espace Admin
+    </h2>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -22,7 +22,8 @@
                         Comptes
                     </button>
                 </form>
-                <a href="{{ route('dashboard') }}" class="inline-block mt-4 px-4 py-2 bg-teal-500 text-white rounded">Retour au tableau de bord</a>
+                <a href="{{ route('dashboard') }}" class="inline-block mt-4 px-4 py-2 bg-teal-500 text-white rounded">Retour
+                    au tableau de bord</a>
             </div>
         </div>
     </div>

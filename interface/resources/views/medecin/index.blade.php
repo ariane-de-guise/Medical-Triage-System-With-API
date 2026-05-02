@@ -42,7 +42,8 @@
                                             @if ($i === 0)
                                                 <form method="GET" action="{{ route('medecin.show') }}">
                                                     @csrf
-                                                    <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-100 text-teal-700 rounded">
+                                                    <button type="submit"
+                                                            class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-100 text-teal-700 rounded">
                                                         Prendre en charge
                                                     </button>
                                                 </form>
@@ -56,7 +57,9 @@
                                             </p>
 
                                             <p class="mt-2 text-xs text-gray-500">
-                                                Attends depuis {{ (int) (now()->diffInMinutes($patients[$i]['latest_visite']['date_heure'], true)) }} minutes
+                                                Attends
+                                                depuis {{ (int) (now()->diffInMinutes($patients[$i]['latest_visite']['date_heure'], true)) }}
+                                                minutes
                                             </p>
                                         </div>
 
@@ -75,7 +78,8 @@
                     </form>
                 @endif
                 <hr class="my-6 border-gray-300">
-                <a href="{{ route('dashboard') }}" class="inline-block mt-4 px-4 py-2 bg-teal-500 text-white rounded">Retour au tableau de bord</a>
+                <a href="{{ route('dashboard') }}" class="inline-block mt-4 px-4 py-2 bg-teal-500 text-white rounded">Retour
+                    au tableau de bord</a>
             </div>
         </div>
     </div>

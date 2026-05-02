@@ -32,12 +32,14 @@
                         <form method="POST" action="{{ route('personnels.destroy', $personnel['id']) }}">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
+                            <button type="submit"
+                                    class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
                                 Déconnecter {{ $personnel['compte']['prenom'] }}
                             </button>
                         </form>
                         <form method="GET" action="{{ route('personnels.edit', $personnel['id']) }}">
-                            <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
+                            <button type="submit"
+                                    class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
                                 Modifier le rôle de {{ $personnel['compte']['prenom'] }}
                             </button>
                         </form>

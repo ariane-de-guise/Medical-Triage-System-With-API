@@ -12,7 +12,9 @@
                     <label for="compte_id" class="block text-sm text-gray-600 mb-1">
                         Employé
                     </label>
-                    <input type="text" id="compte_id" name="compte_id" value="{{ $triage['compte']['prenom'] }} {{ $triage['compte']['nom'] }}" disabled class="w-full px-4 py-2 border rounded-xl bg-gray-100 focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
+                    <input type="text" id="compte_id" name="compte_id"
+                           value="{{ $triage['compte']['prenom'] }} {{ $triage['compte']['nom'] }}" disabled
+                           class="w-full px-4 py-2 border rounded-xl bg-gray-100 focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
                     <label for="file" class="block text-sm text-gray-600 mb-1 mt-4">
                         File d'attente
                     </label>
@@ -23,7 +25,8 @@
                         class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
                         <option value="">Choisissez une file</option>
                         @foreach($files as $file)
-                            <option value="{{ $file }}" {{ old('file', $triage['file_attente']) == $file ? 'selected' : '' }}>
+                            <option
+                                value="{{ $file }}" {{ old('file', $triage['file_attente']) == $file ? 'selected' : '' }}>
                                 {{ ucfirst($file) }}
                             </option>
                         @endforeach
@@ -31,7 +34,8 @@
                     <label for="priorite" class="block text-sm text-gray-600 mb-1">
                         Priorité
                     </label>
-                    <input type="number" id="priorite" name="priorite" value="{{ $triage['priority'] }}" class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
+                    <input type="number" id="priorite" name="priorite" value="{{ $triage['priority'] }}"
+                           class="w-full px-4 py-2 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-300 focus:border-transparent transition">
                 </div>
                 <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-200 text-teal-700 rounded">
                     Modifier la file

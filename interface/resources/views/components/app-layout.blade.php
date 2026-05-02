@@ -4,20 +4,14 @@
     <meta charset="UTF-8">
     <title>{{ $title ?? 'TriageApp' }}</title>
 
-    @vite(['resources/css/app.css'])
+    @vite(['resources/js/app.js', 'resources/css/app.css'])
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-
 <body class="bg-gradient-to-br from-blue-50 to-teal-100 min-h-screen font-sans">
-
-<!-- 🌸 Navbar -->
 <x-navbar/>
 
-<!-- 🌼 Page container -->
 <main class="max-w-5xl mx-auto px-6 py-8">
-
-    <!-- ✨ Card wrapper -->
     <div class="bg-white rounded-3xl shadow-lg p-6">
         @if(session('success'))
             <div class="bg-green-200 text-green-800 p-2 rounded">
@@ -32,8 +26,6 @@
         <br>
         {{ $slot ?? '' }}
     </div>
-
 </main>
-
 </body>
 </html>

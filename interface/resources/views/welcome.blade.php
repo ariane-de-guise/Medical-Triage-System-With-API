@@ -30,7 +30,8 @@
                             @if($ressource["site"] == "Variable")
                                 <span><span class="font-semibold">Site Web : </span>Variable</span>
                             @else
-                                <a href={{$ressource["site"]}}><span class="font-semibold">Site Web : </span><span class="underline">{{$ressource["site"]}}</span></a>
+                                <a href={{$ressource["site"]}}><span class="font-semibold">Site Web : </span><span
+                                        class="underline">{{$ressource["site"]}}</span></a>
                             @endif
                             <p><span class="font-semibold">Numéro de téléphone : </span>{{$ressource["tel"]}}</p>
                             <p><span class="font-semibold">Description : </span>{{$ressource["desc"]}}</p>

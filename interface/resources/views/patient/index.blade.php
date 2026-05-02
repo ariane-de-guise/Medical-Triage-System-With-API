@@ -69,7 +69,8 @@
                     </div>
                 @endif
                 <hr class="my-6 border-gray-300">
-                <a href="{{ route('dashboard') }}" class="inline-block mt-4 px-4 py-2 bg-teal-500 text-white rounded">Retour au tableau de bord</a>
+                <a href="{{ route('dashboard') }}" class="inline-block mt-4 px-4 py-2 bg-teal-500 text-white rounded">Retour
+                    au tableau de bord</a>
             </div>
         </div>
     </div>

@@ -10,7 +10,7 @@
                        class="bg-teal-500 hover:bg-teal-600 text-white text-sm px-4 py-2 rounded-md whitespace-nowrap transition">
                         Ajouter une visite au patient
                     </a>
-                    <form method="GET" action="{{ route('visites.index', $compte_id) }}">
+                    <form method="GET" id="filter-form" action="{{ route('visites.index', $compte_id) }}">
                         <input
                             type="date"
                             name="date_heure"
@@ -21,7 +21,8 @@
                             class="w-36 px-2 py-1.5 text-sm border rounded-md focus:ring-1 focus:ring-teal-300 focus:outline-none">
                             <option value="">Docteur</option>
                             @foreach(collect($docteurs) as $docteur)
-                                <option value="{{ $docteur['id'] }}">{{ $docteur['compte']['prenom'] }} {{ $docteur['compte']['nom'] }}</option>
+                                <option
+                                    value="{{ $docteur['id'] }}">{{ $docteur['compte']['prenom'] }} {{ $docteur['compte']['nom'] }}</option>
                             @endforeach
                         </select>
                         <button type="submit"
@@ -54,8 +55,10 @@
                                 <p class="mt-2 text-xs text-gray-500">
                                     Diagnostiqué le {{ $visite['diagnostique']['date_heure'] }}
                                 </p>
-                                <form method="GET" action="{{ route('visites.show', ['compte_id' => $compte_id, 'id' => $visite['id']]) }}">
-                                    <button type="submit" class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
+                                <form method="GET"
+                                      action="{{ route('visites.show', ['compte_id' => $compte_id, 'id' => $visite['id']]) }}">
+                                    <button type="submit"
+                                            class="inline-block mt-4 mb-2 px-4 py-2 bg-teal-500 text-white rounded">
                                         Voir les détails
                                     </button>
                                 </form>
