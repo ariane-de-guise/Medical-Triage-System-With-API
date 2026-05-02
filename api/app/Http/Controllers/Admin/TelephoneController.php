@@ -5,12 +5,23 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Compte;
 use App\Models\Telephone;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
+/**
+ * Gère les téléphones associés aux comptes dans l'API d'administration.
+ */
 class TelephoneController extends Controller
 {
-    public function index(Request $request, $compte_id)
+    /**
+     * Liste les téléphones d'un compte avec filtres optionnels.
+     *
+     * @param Request $request Critères de filtrage.
+     * @param int|string $compte_id Identifiant du compte.
+     * @return JsonResponse
+     */
+    public function index(Request $request, int|string $compte_id)
     {
         $compte = Compte::find($compte_id);
 
@@ -39,7 +50,14 @@ class TelephoneController extends Controller
         ]);
     }
 
-    public function store(Request $request, $compte_id)
+    /**
+     * Crée un téléphone et l'associe au compte indiqué.
+     *
+     * @param Request $request Données de création.
+     * @param int|string $compte_id Identifiant du compte.
+     * @return JsonResponse
+     */
+    public function store(Request $request, int|string $compte_id)
     {
         try {
             $request->validate([
@@ -73,7 +91,14 @@ class TelephoneController extends Controller
         ], 201);
     }
 
-    public function show($compte_id, $id)
+    /**
+     * Affiche un téléphone précis d'un compte.
+     *
+     * @param int|string $compte_id Identifiant du compte.
+     * @param int|string $id Identifiant du téléphone.
+     * @return JsonResponse
+     */
+    public function show(int|string $compte_id, int|string $id)
     {
         $compte = Compte::find($compte_id);
 
@@ -93,7 +118,14 @@ class TelephoneController extends Controller
         ]);
     }
 
-    public function edit($compte_id, $id)
+    /**
+     * Retourne un téléphone pour l'écran d'édition.
+     *
+     * @param int|string $compte_id Identifiant du compte.
+     * @param int|string $id Identifiant du téléphone.
+     * @return JsonResponse
+     */
+    public function edit(int|string $compte_id, int|string $id)
     {
         $compte = Compte::find($compte_id);
 
@@ -113,7 +145,14 @@ class TelephoneController extends Controller
         ]);
     }
 
-    public function update($compte_id, Request $request)
+    /**
+     * Met à jour un téléphone associé à un compte.
+     *
+     * @param int|string $compte_id Identifiant du compte.
+     * @param Request $request Données de mise à jour.
+     * @return JsonResponse
+     */
+    public function update(int|string $compte_id, Request $request)
     {
         try {
             $request->validate([
@@ -130,7 +169,7 @@ class TelephoneController extends Controller
             return response()->json(['message' => 'Le compte n\'existe pas.'], 404);
         }
 
-        $telephone= $compte->telephones->where('id', $request->telephone_id)->first();
+        $telephone = $compte->telephones->where('id', $request->telephone_id)->first();
 
         if (!$telephone) {
             return response()->json([
@@ -149,7 +188,14 @@ class TelephoneController extends Controller
         return response()->json([["message" => "Le téléphone a été modfié."], 200]);
     }
 
-    public function destroy($compte_id, $id)
+    /**
+     * Supprime un téléphone d'un compte.
+     *
+     * @param int|string $compte_id Identifiant du compte.
+     * @param int|string $id Identifiant du téléphone.
+     * @return JsonResponse
+     */
+    public function destroy(int|string $compte_id, int|string $id)
     {
         $compte = Compte::find($compte_id);
 

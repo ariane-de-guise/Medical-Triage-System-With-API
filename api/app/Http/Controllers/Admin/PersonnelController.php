@@ -7,12 +7,23 @@ use App\Algorithms\TimeCard;
 use App\Models\Compte;
 use App\Models\Personnel;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
+/**
+ * Gère le personnel clinique via l'API d'administration.
+ */
 class PersonnelController extends Controller
 {
-    public function index(Request $request) {
+    /**
+     * Liste le personnel avec filtres de rôle et de durée de connexion.
+     *
+     * @param Request $request Critères de filtrage.
+     * @return JsonResponse
+     */
+    public function index(Request $request)
+    {
         $query = Personnel::query();
 
         if ($request->filled('role')) {
@@ -22,7 +33,7 @@ class PersonnelController extends Controller
         }
 
         if ($request->filled('temps_connexion')) {
-            $hours = (int) $request->temps_connexion;
+            $hours = (int)$request->temps_connexion;
             $query->where('created_at', '<=', now()->subHours($hours));
         }
 
@@ -31,10 +42,16 @@ class PersonnelController extends Controller
         return response()->json($personnels);
     }
 
-    public function create() {
+    /**
+     * Retourne les comptes admissibles à la création d'un enregistrement de personnel.
+     *
+     * @return JsonResponse
+     */
+    public function create()
+    {
         $personnels = Compte::query()->whereHas('user', function ($q) {
-                $q->role([Roles::Medecin, Roles::Infirmier]);
-            })
+            $q->role([Roles::Medecin, Roles::Infirmier]);
+        })
             ->whereDoesntHave('personnel')
             ->with('user.roles')
             ->get();
@@ -42,7 +59,14 @@ class PersonnelController extends Controller
         return response()->json($personnels);
     }
 
-    public function store(Request $request) {
+    /**
+     * Crée une connexion de personnel pour un compte et un rôle donné.
+     *
+     * @param Request $request Données de création.
+     * @return JsonResponse
+     */
+    public function store(Request $request)
+    {
         try {
             $request->validate([
                 'compte_id' => 'required|exists:comptes,id',
@@ -71,7 +95,13 @@ class PersonnelController extends Controller
         ], 201);
     }
 
-    public function show($id)
+    /**
+     * Affiche un membre du personnel.
+     *
+     * @param int|string $id Identifiant du personnel.
+     * @return JsonResponse
+     */
+    public function show(int|string $id)
     {
         $query = Personnel::find($id);
 
@@ -86,7 +116,14 @@ class PersonnelController extends Controller
         return response()->json($personnel);
     }
 
-    public function edit($id) {
+    /**
+     * Retourne les données d'un personnel et les rôles modifiables.
+     *
+     * @param int|string $id Identifiant du personnel.
+     * @return JsonResponse
+     */
+    public function edit(int|string $id)
+    {
         $query = Personnel::find($id);
 
         if (!$query) {
@@ -109,7 +146,14 @@ class PersonnelController extends Controller
         ]);
     }
 
-    public function update(Request $request) {
+    /**
+     * Modifie le rôle actif d'un personnel.
+     *
+     * @param Request $request Données de mise à jour.
+     * @return JsonResponse
+     */
+    public function update(Request $request)
+    {
         try {
             $request->validate([
                 'personnel_id' => 'required|exists:personnels,id',
@@ -143,7 +187,14 @@ class PersonnelController extends Controller
         return response()->json([["message" => "Le personnel a été modfié."], 200]);
     }
 
-    public function destroy($id) {
+    /**
+     * Supprime un membre du personnel en le déconnectant du triage.
+     *
+     * @param int|string $id Identifiant du personnel.
+     * @return JsonResponse
+     */
+    public function destroy(int|string $id)
+    {
         $query = Personnel::find($id);
 
         if (!$query) {

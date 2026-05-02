@@ -2,15 +2,17 @@
 
 namespace App\Algorithms;
 
+/**
+ * Associe une liste de symptômes patients aux afflictions connues.
+ */
 class AfflictionMatcher
 {
     /**
-     * Fonction qui retourne les 5 afflictions (maladies et blessures)
-     * qui correspondes les plus aux symptomes du patient.
+     * Retourne les 5 afflictions (maladies/blessures) qui correspondent le mieux.
      *
-     * @param array $inputSymptomes Liste des symptomes en input du patient
-     * @param array $afflictions Liste complete des afflictions
-     * @return array Top 5 afflictions avec montant de match en %
+     * @param list<string> $inputSymptomes Symptômes saisis pour le patient.
+     * @param list<array{nom:string, priorite:int, symptomes:list<string>}> $afflictions Catalogue complet des afflictions.
+     * @return list<array{nom:string, priorite:int, percentage:float}> Top 5 des afflictions triées par pourcentage de correspondance décroissant.
      */
     public static function match(array $inputSymptomes, array $afflictions): array
     {

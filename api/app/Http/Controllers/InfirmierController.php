@@ -9,12 +9,22 @@ use App\Algorithms\TimeCard;
 use App\Algorithms\TriageQueue;
 use App\Models\User;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
+/**
+ * Expose les opérations API utilisées par le personnel infirmier.
+ */
 class InfirmierController extends Controller
 {
-    public function index($id)
+    /**
+     * Retourne l'état de connexion de l'infirmier et la liste de ses patients en file.
+     *
+     * @param int|string $id Identifiant utilisateur.
+     * @return JsonResponse
+     */
+    public function index(int|string $id)
     {
         $user = User::findOrFail($id);
         $count = TriageQueue::queueCount($user);
@@ -34,7 +44,14 @@ class InfirmierController extends Controller
         ]);
     }
 
-    public function show($id, Request $request)
+    /**
+     * Retourne le prochain patient, la liste des symptômes disponibles et le résultat de priorité si fourni.
+     *
+     * @param int|string $id Identifiant utilisateur.
+     * @param Request $request Requête contenant éventuellement des symptômes.
+     * @return JsonResponse
+     */
+    public function show(int|string $id, Request $request)
     {
         $user = User::findOrFail($id);
         $patient = TriageQueue::peek(0, $user)->load([
@@ -59,7 +76,13 @@ class InfirmierController extends Controller
         ]);
     }
 
-    public function store($id)
+    /**
+     * Connecte l'utilisateur courant au système de triage comme infirmier.
+     *
+     * @param int|string $id Identifiant utilisateur.
+     * @return JsonResponse
+     */
+    public function store(int|string $id)
     {
         $user = User::findOrFail($id);
         try {
@@ -76,7 +99,13 @@ class InfirmierController extends Controller
         ]);
     }
 
-    public function destroy($id)
+    /**
+     * Déconnecte l'infirmier du système de triage.
+     *
+     * @param int|string $id Identifiant utilisateur.
+     * @return JsonResponse
+     */
+    public function destroy(int|string $id)
     {
         $user = User::findOrFail($id);
         try {
@@ -90,7 +119,14 @@ class InfirmierController extends Controller
         ]);
     }
 
-    public function update($id, Request $request)
+    /**
+     * Termine la consultation infirmière en réorientant le patient vers la file médecin.
+     *
+     * @param int|string $id Identifiant utilisateur.
+     * @param Request $request Données de priorisation et de commentaire.
+     * @return JsonResponse
+     */
+    public function update(int|string $id, Request $request)
     {
         try {
             $request->validate([

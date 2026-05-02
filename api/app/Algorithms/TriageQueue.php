@@ -14,17 +14,21 @@ use Illuminate\Support\Facades\Log;
 use OutOfBoundsException;
 use Throwable;
 
+/**
+ * Gère les opérations de file d'attente de triage (ajout, retrait, consultation, répartition).
+ */
 class TriageQueue
 {
     /**
-     * Fonction pour recevoir la taille complète de sa file d'attente en tant que médecin ou infirmier.
+     * Retourne la taille de la file d'attente associée à un membre du personnel.
      *
-     * @param User $user Utilisateur de la session.
-     * @return int Taille de la file d'attente du personnel du compte de l'utilisateur.
+     * @param User $user Utilisateur courant.
+     * @return int Nombre de patients assignés (0 si aucun personnel lié au compte).
      */
-    public static function queueCount(User $user): int {
+    public static function queueCount(User $user): int
+    {
         $compte = $user->compte;
-        $personnel  = $compte->personnel;
+        $personnel = $compte->personnel;
         if (!$personnel) {
             return 0;
         }
@@ -32,11 +36,12 @@ class TriageQueue
     }
 
     /**
-     * Fonction pour s'ajouter à une file d'attente (médecin ou infirmier).
+     * Ajoute un patient dans une file d'attente (infirmier ou médecin).
      *
-     * @param User $user Utilisateur de la session.
-     * @param int $priority Priorité de l'urgence (0 pour infirmier).
-     * @return void Exception si problème à s'ajouter à la file.
+     * @param User $user Utilisateur courant.
+     * @param int $priority Priorité de triage (0 = file infirmier, sinon file médecin).
+     * @param string $commentaire Commentaire initial enregistré dans le diagnostique si assignation médecin.
+     * @return void Les erreurs sont capturées et journalisées.
      */
     public static function enqueue(User $user, int $priority, string $commentaire): void
     {
@@ -96,10 +101,10 @@ class TriageQueue
     }
 
     /**
-     * Fonction pour se retirer de la file d'attente.
+     * Retire le patient courant de la file d'attente.
      *
-     * @param User $user Utilisateur de la session.
-     * @return void Exception si problème à se retirer de la file d'attente.
+     * @param User $user Utilisateur courant.
+     * @return void
      */
     public static function dequeue(User $user): void
     {
@@ -111,10 +116,10 @@ class TriageQueue
     }
 
     /**
-     * Fonction pour répartir les patients lors de login ou logout.
+     * Rééquilibre les patients entre les personnels d'un même rôle.
      *
-     * @param Roles $role Infirmier ou Médecin, selon la file d'attente à rééquilibrer.
-     * @return void Exception si problème à rebalancer la file d'attente.
+     * @param Roles $role Rôle ciblé (infirmier ou médecin).
+     * @return void
      */
     public static function rebalance(Roles $role): void
     {
@@ -138,13 +143,13 @@ class TriageQueue
 
                 if ($patientSeen) {
                     $triages = $triages->reject(
-                        fn ($t) => $t->id === $patientSeen->id
+                        fn($t) => $t->id === $patientSeen->id
                     );
 
                     $p->setRelation(
                         'triages',
                         $p->triages->reject(
-                            fn ($t) => $t->id === $patientSeen->id
+                            fn($t) => $t->id === $patientSeen->id
                         )
                     );
                 }
@@ -153,7 +158,7 @@ class TriageQueue
 
         foreach ($triages as $triage) {
             $practitioner = $personnels->sortBy(
-                fn ($p) => $p->triages->count()
+                fn($p) => $p->triages->count()
             )->first();
 
             $triage->personnel_id = $practitioner->id;
@@ -169,11 +174,12 @@ class TriageQueue
     }
 
     /**
-     * Fonction pour avoir le compte du patient à une certaine position dans sa file.
+     * Retourne le compte patient à un index donné dans la file du personnel.
      *
-     * @param int $index Index de la file dont on veut peek.
-     * @param User $user Utilisateur de la session.
-     * @return Compte Compte du patient.
+     * @param int $index Index basé sur 0 dans la file triée par priorité puis position.
+     * @param User $user Utilisateur courant.
+     * @return Compte Compte du patient correspondant.
+     * @throws OutOfBoundsException Si l'index ne peut pas être résolu.
      */
     public static function peek(int $index, User $user): Compte
     {
@@ -199,24 +205,26 @@ class TriageQueue
     }
 
     /**
-     * Fonction pour vérifier si on est dans une file.
+     * Vérifie si l'utilisateur est actuellement dans une file de triage.
      *
-     * @param User $user Utilisateur de la session
-     * @return bool True si le patient est dans une file d'attente, false sinon.
+     * @param User $user Utilisateur courant.
+     * @return bool True si un triage existe pour le compte, sinon false.
      */
-    public static function enqueued(User $user): bool {
+    public static function enqueued(User $user): bool
+    {
         $compte = $user->compte;
         return Triage::where('compte_id', $compte->id)->exists();
     }
 
 
     /**
-     * Fonction pour connaître sa position dans la file d'attente.
+     * Retourne la position du patient dans la file du praticien assigné.
      *
-     * @param User $user Utilisateur de la session.
-     * @return int Position dans la file.
+     * @param User $user Utilisateur courant.
+     * @return int Position (index 1) ou -1 si non trouvé/non assigné.
      */
-    public static function queuePosition(User $user): int {
+    public static function queuePosition(User $user): int
+    {
         $compte = $user->compte;
         $patient = $compte->triage;
 

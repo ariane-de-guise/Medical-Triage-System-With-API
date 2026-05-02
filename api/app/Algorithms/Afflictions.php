@@ -2,8 +2,16 @@
 
 namespace App\Algorithms;
 
+/**
+ * Référentiel des afflictions utilisées par l'algorithme de triage.
+ */
 class Afflictions
 {
+    /**
+     * Catalogue des afflictions connues.
+     *
+     * @var list<array{nom:string, priorite:int, symptomes:list<string>}>
+     */
     public const array afflictions = [
         [
             'nom' => 'Arrêt cardiaque',

@@ -6,10 +6,18 @@ use App\Algorithms\Constants;
 use App\Models\Adresse;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * Génère des adresses factices pour le modèle Adresse.
+ */
 class AdresseFactory extends Factory
 {
     protected $model = Adresse::class;
 
+    /**
+     * Retourne un jeu de données valide pour une adresse.
+     *
+     * @return array{code_postal:string, numero:int, province:string, rue:string, ville:string, type:string}
+     */
     public function definition(): array
     {
         $provinces = Constants::PROVINCES;
@@ -24,6 +32,11 @@ class AdresseFactory extends Factory
         ];
     }
 
+    /**
+     * Génère un code postal aléatoire au format alphanumérique canadien.
+     *
+     * @return string
+     */
     private function getRandomPostalCode(): string
     {
         $letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';

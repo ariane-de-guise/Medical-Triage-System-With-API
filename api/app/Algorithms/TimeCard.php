@@ -10,14 +10,17 @@ use Illuminate\Support\Facades\Log;
 use Throwable;
 
 
+/**
+ * Gère la connexion/déconnexion du personnel clinique.
+ */
 class TimeCard
 {
     /**
-     * Fonction pour être capable de se connecter en tant que médecin ou infirmier.
+     * Connecte un utilisateur comme membre du personnel (médecin ou infirmier).
      *
-     * @param User $user Utilisateur de la session.
-     * @param Roles $role Rôle que la vue souhaite afficher (vérifications faites dans les routes pour les permissions).
-     * @return void Exception si problème lors de la création du personnel ou du rééquilibrage des files d'attente.
+     * @param User $user Utilisateur courant.
+     * @param Roles $role Rôle de personnel à activer.
+     * @return void Les erreurs sont capturées et journalisées.
      */
     public static function login(User $user, Roles $role): void
     {
@@ -42,13 +45,14 @@ class TimeCard
     }
 
     /**
-     * Fonction pour être capable de se déconnecter en tant que médecin ou infirmier.
+     * Déconnecte un utilisateur de son rôle de personnel clinique.
      *
-     * @param User $user Utilisateur de la session.
-     * @param Roles $role Rôle que la vue souhaite afficher (vérifications faites dans les routes pour les permissions).
-     * @return void Exception si problème lors de la création du personnel ou du rééquilibrage des files d'attente.
+     * @param User $user Utilisateur courant.
+     * @param Roles $role Rôle de personnel à désactiver.
+     * @return void Les erreurs sont capturées et journalisées.
      */
-    public static function logout(User $user, Roles $role): void {
+    public static function logout(User $user, Roles $role): void
+    {
         $compte = $user->compte;
 
         try {
@@ -63,6 +67,13 @@ class TimeCard
         }
     }
 
+    /**
+     * Vérifie si l'utilisateur est actuellement connecté avec le rôle demandé.
+     *
+     * @param User $user Utilisateur courant.
+     * @param Roles $role Rôle à valider.
+     * @return bool True si un enregistrement de personnel existe pour ce compte et ce rôle.
+     */
     public static function loggedin(User $user, Roles $role): bool
     {
         return Personnel::where('compte_id', $user->compte->id)

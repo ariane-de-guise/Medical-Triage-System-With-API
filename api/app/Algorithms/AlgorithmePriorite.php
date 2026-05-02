@@ -2,9 +2,19 @@
 
 namespace App\Algorithms;
 
+/**
+ * Calcule la priorité de triage à partir des symptômes soumis.
+ */
 class AlgorithmePriorite
 {
-    public static function calculer(array $symptomes) : array {
+    /**
+     * Détermine la priorité finale et les meilleures afflictions correspondantes.
+     *
+     * @param list<string> $symptomes Symptômes déclarés pour le patient.
+     * @return array{priorite:int|string, afflictions:list<array{nom:string, priorite?:int, percentage?:float}>}
+     */
+    public static function calculer(array $symptomes): array
+    {
         $afflictions = AfflictionMatcher::match($symptomes, Afflictions::afflictions);
 
         $priorities = [1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0];
@@ -14,8 +24,7 @@ class AlgorithmePriorite
         foreach ($afflictions as $affliction) {
             if ($affliction['percentage'] > 0) {
                 $priorities[$affliction['priorite']] += 1;
-            }
-            else {
+            } else {
                 $toRemove[] = $i;
             }
             $i++;

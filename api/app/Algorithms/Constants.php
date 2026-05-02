@@ -2,10 +2,22 @@
 
 namespace App\Algorithms;
 
+/**
+ * Regroupe les constantes de référence utilisées par l'application.
+ */
 class Constants
 {
+    /** @var list<string> Abréviations des provinces/territoires supportés. */
     public const array PROVINCES = ['QC', 'ON', 'BC', 'NB', 'NS', 'NL', 'PE', 'MB', 'SK', 'YT', 'NT', 'NU', 'AB'];
+
+    /** @var list<string> Types d'adresses pris en charge. */
     public const array TYPES = ['Maison', 'Travail'];
+
+    /**
+     * Répertoire de ressources d'aide par catégorie.
+     *
+     * @var array<string, array{nom:string, items:list<array{nom:string, tel:string, site:string, desc:string}>}>
+     */
     public const array RESSOURCES = [
         'sante_physique' => [
             'nom' => "Problème de santé physique",

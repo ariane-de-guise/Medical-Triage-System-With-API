@@ -7,12 +7,23 @@ use App\Algorithms\TriageQueue;
 use App\Models\Compte;
 use App\Models\Triage;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
+/**
+ * Gère les éléments de triage via l'API d'administration.
+ */
 class TriageController extends Controller
 {
-    public function index(Request $request) {
+    /**
+     * Liste les éléments de triage avec filtres optionnels.
+     *
+     * @param Request $request Critères de filtrage.
+     * @return JsonResponse
+     */
+    public function index(Request $request)
+    {
         $query = Triage::all();
 
         if ($request->filled('file_attente')) {
@@ -28,7 +39,13 @@ class TriageController extends Controller
         return response()->json($triages);
     }
 
-    public function create() {
+    /**
+     * Retourne les patients admissibles et les files disponibles pour la création.
+     *
+     * @return JsonResponse
+     */
+    public function create()
+    {
         $comptes = Compte::query()->whereHas('user', function ($q) {
             $q->role(Roles::Patient);
         })
@@ -44,7 +61,14 @@ class TriageController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
+    /**
+     * Ajoute un patient à une file de triage en administration.
+     *
+     * @param Request $request Données de création du triage.
+     * @return JsonResponse
+     */
+    public function store(Request $request)
+    {
         try {
             $request->validate([
                 'compte_id' => 'required|exists:comptes,id',
@@ -82,7 +106,13 @@ class TriageController extends Controller
         ], 201);
     }
 
-    public function show($id)
+    /**
+     * Affiche un élément de triage précis.
+     *
+     * @param int|string $id Identifiant du triage.
+     * @return JsonResponse
+     */
+    public function show(int|string $id)
     {
         $query = Triage::find($id);
 
@@ -97,7 +127,14 @@ class TriageController extends Controller
         return response()->json($triage);
     }
 
-    public function edit($id) {
+    /**
+     * Retourne les données d'un triage pour son édition.
+     *
+     * @param int|string $id Identifiant du triage.
+     * @return JsonResponse
+     */
+    public function edit(int|string $id)
+    {
         $query = Triage::find($id);
 
         if (!$query) {
@@ -115,7 +152,14 @@ class TriageController extends Controller
         ]);
     }
 
-    public function update(Request $request) {
+    /**
+     * Met à jour une entrée de triage en réassignant le patient.
+     *
+     * @param Request $request Données de mise à jour.
+     * @return JsonResponse
+     */
+    public function update(Request $request)
+    {
         try {
             $request->validate([
                 'triage_id' => 'required|exists:triages,id',
@@ -157,7 +201,14 @@ class TriageController extends Controller
         return response()->json([["message" => "L'élément de triage a été modfié."], 200]);
     }
 
-    public function destroy($id) {
+    /**
+     * Supprime un élément de triage.
+     *
+     * @param int|string $id Identifiant du triage.
+     * @return JsonResponse
+     */
+    public function destroy(int|string $id)
+    {
         $query = Triage::find($id);
 
         if (!$query) {

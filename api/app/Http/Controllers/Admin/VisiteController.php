@@ -8,12 +8,23 @@ use App\Models\Diagnostique;
 use App\Models\User;
 use App\Models\Visite;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
+/**
+ * Gère les visites et diagnostiques des patients en administration.
+ */
 class VisiteController extends Controller
 {
-    public function index(Request $request, $compte_id)
+    /**
+     * Liste les visites d'un patient avec filtres optionnels.
+     *
+     * @param Request $request Critères de filtrage.
+     * @param int|string $compte_id Identifiant du patient.
+     * @return JsonResponse
+     */
+    public function index(Request $request, int|string $compte_id)
     {
         $query = Visite::query();
         $query = $query->where('patient_id', '=', $compte_id);
@@ -35,6 +46,11 @@ class VisiteController extends Controller
         ]);
     }
 
+    /**
+     * Retourne les métadonnées nécessaires à la création d'une visite.
+     *
+     * @return JsonResponse
+     */
     public function create()
     {
         $docteurs = User::role(Roles::Medecin)->with('compte')->get();
@@ -51,7 +67,14 @@ class VisiteController extends Controller
         ]);
     }
 
-    public function store(Request $request, $compte_id)
+    /**
+     * Crée une visite et son diagnostique pour un patient.
+     *
+     * @param Request $request Données de création.
+     * @param int|string $compte_id Identifiant du patient.
+     * @return JsonResponse
+     */
+    public function store(Request $request, int|string $compte_id)
     {
         try {
             $request->validate([
@@ -84,7 +107,7 @@ class VisiteController extends Controller
 
             if (!Symptomes::tryFrom($normalized)) {
                 return response()->json([
-                    'message' => "Symptome invalide: {$symptome}",
+                    'message' => "Symptome invalide: $symptome",
                 ], 400);
             }
         }
@@ -121,7 +144,14 @@ class VisiteController extends Controller
         ], 201);
     }
 
-    public function show($compte_id, $id)
+    /**
+     * Affiche une visite précise d'un patient.
+     *
+     * @param int|string $compte_id Identifiant du patient.
+     * @param int|string $id Identifiant de la visite.
+     * @return JsonResponse
+     */
+    public function show(int|string $compte_id, int|string $id)
     {
         $visite = Visite::where('patient_id', $compte_id)
             ->where('id', $id)
@@ -140,7 +170,14 @@ class VisiteController extends Controller
         ]);
     }
 
-    public function edit($compte_id, $id)
+    /**
+     * Retourne une visite et les données nécessaires à son édition.
+     *
+     * @param int|string $compte_id Identifiant du patient.
+     * @param int|string $id Identifiant de la visite.
+     * @return JsonResponse
+     */
+    public function edit(int|string $compte_id, int|string $id)
     {
         $visite = Visite::where('patient_id', $compte_id)
             ->where('id', $id)
@@ -163,7 +200,14 @@ class VisiteController extends Controller
         ]);
     }
 
-    public function update($compte_id, Request $request)
+    /**
+     * Met à jour une visite et son diagnostique.
+     *
+     * @param int|string $compte_id Identifiant du patient.
+     * @param Request $request Données de mise à jour.
+     * @return JsonResponse
+     */
+    public function update(int|string $compte_id, Request $request)
     {
         try {
             $request->validate([
@@ -222,7 +266,14 @@ class VisiteController extends Controller
         return response()->json([["message" => "La visite a été modfié."], 200]);
     }
 
-    public function destroy($compte_id, $id)
+    /**
+     * Supprime une visite et son diagnostique associé.
+     *
+     * @param int|string $compte_id Identifiant du patient.
+     * @param int|string $id Identifiant de la visite.
+     * @return JsonResponse
+     */
+    public function destroy(int|string $compte_id, int|string $id)
     {
         $visite = Visite::where('patient_id', $compte_id)
             ->where('id', $id)

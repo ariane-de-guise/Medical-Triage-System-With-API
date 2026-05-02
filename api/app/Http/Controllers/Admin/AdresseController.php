@@ -6,12 +6,23 @@ use App\Algorithms\Constants;
 use App\Models\Adresse;
 use App\Models\Compte;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
+/**
+ * Gère les adresses associées aux comptes dans l'API d'administration.
+ */
 class AdresseController
 {
-    public function index(Request $request, $compte_id)
+    /**
+     * Liste les adresses d'un compte avec filtres optionnels.
+     *
+     * @param Request $request Critères de filtrage.
+     * @param int|string $compte_id Identifiant du compte.
+     * @return JsonResponse
+     */
+    public function index(Request $request, int|string $compte_id)
     {
         $compte = Compte::find($compte_id);
 
@@ -40,6 +51,11 @@ class AdresseController
         ]);
     }
 
+    /**
+     * Retourne les métadonnées nécessaires à la création d'une adresse.
+     *
+     * @return JsonResponse
+     */
     public function create()
     {
         $provinces = array_map(fn($province) => ['name' => $province], Constants::PROVINCES);
@@ -51,7 +67,14 @@ class AdresseController
         ]);
     }
 
-    public function store(Request $request, $compte_id)
+    /**
+     * Crée une adresse et l'associe au compte indiqué.
+     *
+     * @param Request $request Données d'adresse.
+     * @param int|string $compte_id Identifiant du compte.
+     * @return JsonResponse
+     */
+    public function store(Request $request, int|string $compte_id)
     {
         try {
             $request->validate([
@@ -66,7 +89,7 @@ class AdresseController
             return response()->json(['message' => $e->getMessage()], 500);
         }
 
-        $compte  = Compte::find($compte_id);
+        $compte = Compte::find($compte_id);
         if (!$compte) {
             return response()->json([
                 'message' => 'Le compte n\'existe pas',
@@ -95,7 +118,14 @@ class AdresseController
         ], 201);
     }
 
-    public function show($compte_id, $id)
+    /**
+     * Affiche une adresse précise d'un compte.
+     *
+     * @param int|string $compte_id Identifiant du compte.
+     * @param int|string $id Identifiant de l'adresse.
+     * @return JsonResponse
+     */
+    public function show(int|string $compte_id, int|string $id)
     {
         $compte = Compte::find($compte_id);
 
@@ -115,7 +145,14 @@ class AdresseController
         ]);
     }
 
-    public function edit($compte_id, $id)
+    /**
+     * Retourne une adresse et les métadonnées pour son édition.
+     *
+     * @param int|string $compte_id Identifiant du compte.
+     * @param int|string $id Identifiant de l'adresse.
+     * @return JsonResponse
+     */
+    public function edit(int|string $compte_id, int|string $id)
     {
         $compte = Compte::find($compte_id);
 
@@ -140,7 +177,14 @@ class AdresseController
         ]);
     }
 
-    public function update($compte_id, Request $request)
+    /**
+     * Met à jour une adresse liée à un compte.
+     *
+     * @param int|string $compte_id Identifiant du compte.
+     * @param Request $request Données de mise à jour.
+     * @return JsonResponse
+     */
+    public function update(int|string $compte_id, Request $request)
     {
         try {
             $request->validate([
@@ -186,7 +230,14 @@ class AdresseController
         return response()->json([["message" => "L'adresse a été modfiée."], 200]);
     }
 
-    public function destroy($compte_id, $id)
+    /**
+     * Supprime une adresse d'un compte.
+     *
+     * @param int|string $compte_id Identifiant du compte.
+     * @param int|string $id Identifiant de l'adresse.
+     * @return JsonResponse
+     */
+    public function destroy(int|string $compte_id, int|string $id)
     {
         $compte = Compte::find($compte_id);
 

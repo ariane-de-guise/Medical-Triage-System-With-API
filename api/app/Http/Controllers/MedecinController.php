@@ -8,12 +8,23 @@ use App\Algorithms\TriageQueue;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
+/**
+ * Expose les opérations API utilisées par le personnel médecin.
+ */
 class MedecinController extends Controller
 {
-    public function index($id) {
+    /**
+     * Retourne l'état de connexion du médecin et la liste de ses patients en file.
+     *
+     * @param int|string $id Identifiant utilisateur.
+     * @return JsonResponse
+     */
+    public function index(int|string $id)
+    {
         $user = User::findOrFail($id);
         $count = TriageQueue::queueCount($user);
         $patients = [];
@@ -34,7 +45,14 @@ class MedecinController extends Controller
         ]);
     }
 
-    public function show($id) {
+    /**
+     * Retourne le prochain patient à traiter pour le médecin.
+     *
+     * @param int|string $id Identifiant utilisateur.
+     * @return JsonResponse
+     */
+    public function show(int|string $id)
+    {
         $user = User::findOrFail($id);
         $patient = TriageQueue::peek(0, $user)->load([
             'triage',
@@ -48,7 +66,14 @@ class MedecinController extends Controller
         ]);
     }
 
-    public function store($id) {
+    /**
+     * Connecte l'utilisateur courant au système de triage comme médecin.
+     *
+     * @param int|string $id Identifiant utilisateur.
+     * @return JsonResponse
+     */
+    public function store(int|string $id)
+    {
         $user = User::findOrFail($id);
         try {
             if (TimeCard::loggedin($user, Roles::Infirmier) || TimeCard::loggedin($user, Roles::Medecin)) {
@@ -64,7 +89,14 @@ class MedecinController extends Controller
         ]);
     }
 
-    public function destroy($id) {
+    /**
+     * Déconnecte le médecin du système de triage.
+     *
+     * @param int|string $id Identifiant utilisateur.
+     * @return JsonResponse
+     */
+    public function destroy(int|string $id)
+    {
         $user = User::findOrFail($id);
         try {
             TimeCard::logout($user, Roles::Medecin);
@@ -77,7 +109,15 @@ class MedecinController extends Controller
         ]);
     }
 
-    public function update($id, Request $request) {
+    /**
+     * Met à jour le diagnostique du patient courant puis retire ce patient de la file.
+     *
+     * @param int|string $id Identifiant utilisateur.
+     * @param Request $request Données du diagnostique.
+     * @return JsonResponse
+     */
+    public function update(int|string $id, Request $request)
+    {
         try {
             $request->validate([
                 'diagnostique' => 'required',

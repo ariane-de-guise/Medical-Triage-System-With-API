@@ -9,6 +9,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * Modèle utilisateur authentifiable de l'API.
+ */
 class User extends Authenticatable
 {
     use HasFactory;
@@ -16,26 +19,21 @@ class User extends Authenticatable
     use HasRoles;
     use HasApiTokens;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'email',
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
     ];
 
 
+    /**
+     * Retourne le compte métier associé à l'utilisateur.
+     *
+     * @return HasOne|User
+     */
     public function compte(): HasOne|User
     {
         return $this->hasOne(Compte::class);

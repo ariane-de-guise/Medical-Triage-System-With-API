@@ -7,16 +7,22 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Vérifie qu'un utilisateur authentifié possède au moins un des rôles requis.
+ */
 class CheckAbilityRoles
 {
     /**
-     * Handle an incoming request.
+     * Valide l'accès à une route selon les rôles autorisés.
      *
-     * @param  Closure(Request): (Response)  $next
+     * @param Request $request Requête HTTP entrante.
+     * @param Closure(Request): (Response) $next Prochaine étape du pipeline middleware.
+     * @param string ...$abilities Rôles autorisés pour accéder à la ressource.
+     * @return JsonResponse|Response Réponse JSON 401/403 en cas d'échec, sinon réponse du middleware suivant.
      */
-    public function handle($request, Closure $next, ...$abilities): JsonResponse|Response
+    public function handle(Request $request, Closure $next, ...$abilities): JsonResponse|Response
     {
-        if (! $request->user() || ! $request->user()->currentAccessToken()) {
+        if (!$request->user() || !$request->user()->currentAccessToken()) {
             return response()->json(['message' => 'Vous devez vous connecter.'], 401);
         }
 

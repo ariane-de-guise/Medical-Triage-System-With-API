@@ -13,8 +13,16 @@ use App\Models\Visite;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 
+/**
+ * Alimente la base avec un jeu de données cohérent pour les tests locaux.
+ */
 class DatabaseSeeder extends Seeder
 {
+    /**
+     * Exécute le peuplement complet (rôles, comptes, coordonnées, visites et triages).
+     *
+     * @return void
+     */
     public function run(): void
     {
         $roles = ['admin', 'medecin', 'infirmier', 'patient'];
@@ -97,8 +105,7 @@ class DatabaseSeeder extends Seeder
         foreach ($patients as $patient) {
             if ($count < 6) {
                 TriageQueue::enqueue($patient->user, 0, "");
-            }
-            else {
+            } else {
                 $priority = rand(1, 5);
                 TriageQueue::enqueue($patient->user, $priority, fake()->sentence());
             }

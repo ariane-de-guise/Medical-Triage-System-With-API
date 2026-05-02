@@ -7,12 +7,23 @@ use App\Algorithms\TimeCard;
 use App\Models\Compte;
 use App\Models\User;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
+/**
+ * Gère les comptes utilisateurs via l'API d'administration.
+ */
 class CompteController extends Controller
 {
-    public function index(Request $request) {
+    /**
+     * Liste les comptes avec filtres optionnels et pagination.
+     *
+     * @param Request $request Critères de recherche.
+     * @return JsonResponse
+     */
+    public function index(Request $request)
+    {
         $query = Compte::query();
 
         if ($request->filled('annee_naissance')) {
@@ -37,7 +48,13 @@ class CompteController extends Controller
         ]);
     }
 
-    public function create() {
+    /**
+     * Retourne les rôles disponibles pour la création d'un compte.
+     *
+     * @return JsonResponse
+     */
+    public function create()
+    {
         $roles = [Roles::Infirmier->value, Roles::Medecin->value, Roles::Admin->value, Roles::Patient->value];
 
         return response()->json([
@@ -45,7 +62,14 @@ class CompteController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
+    /**
+     * Crée un nouvel utilisateur, son compte et son rôle.
+     *
+     * @param Request $request Données de création du compte.
+     * @return JsonResponse
+     */
+    public function store(Request $request)
+    {
         try {
             $request->validate([
                 'email' => ['required', 'email', 'unique:users'],
@@ -84,7 +108,13 @@ class CompteController extends Controller
         ], 201);
     }
 
-    public function show($id)
+    /**
+     * Affiche un compte et ses rôles.
+     *
+     * @param int|string $id Identifiant du compte.
+     * @return JsonResponse
+     */
+    public function show(int|string $id)
     {
         $query = Compte::find($id);
 
@@ -103,7 +133,14 @@ class CompteController extends Controller
         ]);
     }
 
-    public function edit($id) {
+    /**
+     * Retourne les données d'un compte et les rôles éditables.
+     *
+     * @param int|string $id Identifiant du compte.
+     * @return JsonResponse
+     */
+    public function edit(int|string $id)
+    {
         $query = Compte::find($id);
 
         if (!$query) {
@@ -121,7 +158,14 @@ class CompteController extends Controller
         ]);
     }
 
-    public function update(Request $request) {
+    /**
+     * Met à jour un compte et ajuste ses rôles.
+     *
+     * @param Request $request Données de mise à jour.
+     * @return JsonResponse
+     */
+    public function update(Request $request)
+    {
         try {
             $request->validate([
                 'compte_id' => 'required|exists:comptes,id',
@@ -150,8 +194,7 @@ class CompteController extends Controller
 
             try {
                 $compte->user->assignRole($request->add_role);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 return response()->json(['message' => 'Ce rôle n\' a pas pu être ajouté : ' . $e->getMessage()], 400);
             }
         }
@@ -163,8 +206,7 @@ class CompteController extends Controller
 
             try {
                 $compte->user->removeRole($request->remove_role);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 return response()->json(['message' => 'Ce rôle n\' a pas pu être supprimé : ' . $e->getMessage()], 400);
             }
         }
@@ -175,15 +217,21 @@ class CompteController extends Controller
                 'prenom' => $request->prenom,
                 'date_naissance' => $request->date_naissance,
             ]);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['message' => 'Ce compte n\'a pas pu être modifié : ' . $e->getMessage()], 400);
         }
 
         return response()->json([["message" => "L'élément de triage a été modfié."], 200]);
     }
 
-    public function destroy($id) {
+    /**
+     * Supprime un compte (et déconnecte le personnel si nécessaire).
+     *
+     * @param int|string $id Identifiant du compte.
+     * @return JsonResponse
+     */
+    public function destroy(int|string $id)
+    {
         $query = Compte::find($id);
 
         if (!$query) {
@@ -196,8 +244,7 @@ class CompteController extends Controller
 
         try {
             $query->delete();
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['message' => 'Ce compte n\'a pas pu être supprimé : ' . $e->getMessage()], 400);
         }
 

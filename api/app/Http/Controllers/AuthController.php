@@ -8,14 +8,24 @@ use App\Models\Adresse;
 use App\Models\Telephone;
 use App\Models\User;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
+/**
+ * Gère l'inscription, la connexion et la déconnexion des utilisateurs API.
+ */
 class AuthController extends Controller
 {
+    /**
+     * Crée un nouvel utilisateur patient avec son compte, son adresse et son téléphone.
+     *
+     * @param Request $request Données d'inscription.
+     * @return JsonResponse
+     */
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -74,6 +84,12 @@ class AuthController extends Controller
         ], 201);
     }
 
+    /**
+     * Authentifie un utilisateur et retourne un jeton d'accès API.
+     *
+     * @param Request $request Données de connexion.
+     * @return JsonResponse
+     */
     public function login(Request $request)
     {
         try {
@@ -108,9 +124,19 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Révoque le jeton courant de l'utilisateur authentifié.
+     *
+     * @param Request $request Requête authentifiée.
+     * @return JsonResponse
+     */
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        $token = $request->user()->currentAccessToken();
+
+        if ($token && method_exists($token, 'delete')) {
+            $token->delete();
+        }
 
         return response()->json([
             'message' => 'Logged out'

@@ -4,11 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Algorithms\TriageQueue;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
+/**
+ * Expose les endpoints API disponibles pour les patients.
+ */
 class PatientController extends Controller
 {
-    public function index($id) {
+    /**
+     * Retourne le profil patient enrichi et sa position dans la file de triage.
+     *
+     * @param int|string $id Identifiant utilisateur.
+     * @return JsonResponse
+     */
+    public function index(int|string $id)
+    {
         $user = User::with(['compte'])->findOrFail($id);
         $user->load(['compte.visites', 'compte.visites.diagnostique', 'compte.visites.docteur']);
 
@@ -20,7 +31,13 @@ class PatientController extends Controller
         ]);
     }
 
-    public function destroy($id)
+    /**
+     * Retire le patient de la file d'attente s'il y est inscrit.
+     *
+     * @param int|string $id Identifiant utilisateur.
+     * @return JsonResponse
+     */
+    public function destroy(int|string $id)
     {
         $user = User::findOrFail($id);
 
@@ -28,8 +45,7 @@ class PatientController extends Controller
 
         if ($triage) {
             $triage->delete();
-        }
-        else {
+        } else {
             return response()->json([
                 'message' => 'Vous n\'êtes pas dans la file d\'attente',
             ], 400);
@@ -40,7 +56,14 @@ class PatientController extends Controller
         ]);
     }
 
-    public function store($id) {
+    /**
+     * Ajoute le patient à la file d'attente infirmière.
+     *
+     * @param int|string $id Identifiant utilisateur.
+     * @return JsonResponse
+     */
+    public function store(int|string $id)
+    {
         $user = User::findOrFail($id);
 
         if (TriageQueue::enqueued($user)) {

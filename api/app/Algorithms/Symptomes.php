@@ -3,7 +3,10 @@
 namespace App\Algorithms;
 
 /**
- * Enum representant les differents symptomes de maladies et blessures (afflictions) des patients.
+ * Enum représentant les symptômes reconnus par le moteur de triage.
+ *
+ * Les valeurs textuelles sont utilisées pour comparer les symptômes patients
+ * avec le catalogue d'afflictions.
  */
 enum Symptomes: string
 {

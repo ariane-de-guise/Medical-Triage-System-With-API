@@ -3,9 +3,10 @@
 namespace App\Algorithms;
 
 /**
- * Enum représentant les rôles des utilisateurs dans le système de triage.
- * Chaque rôle correspond à un type de personnel ou à un patient.
- * Les rôles sont utilisés pour déterminer les files d'attente et les priorités de triage.
+ * Enum des rôles applicatifs utilisés par la logique de triage.
+ *
+ * Ces valeurs servent à filtrer l'accès, choisir la file d'attente,
+ * et répartir les patients entre le personnel disponible.
  */
 enum Roles: string
 {
