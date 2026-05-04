@@ -17,6 +17,7 @@ class AfflictionMatcher
     public static function match(array $inputSymptomes, array $afflictions): array
     {
         $results = [];
+        $inputSymptomes = array_map(fn($s) => mb_strtolower($s), $inputSymptomes);
 
         foreach ($afflictions as $affliction) {
 

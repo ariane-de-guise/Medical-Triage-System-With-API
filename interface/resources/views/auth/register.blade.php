@@ -3,6 +3,11 @@
         <h2 class="text-2xl font-semibold text-gray-700 mb-6 text-center">
             S'inscrire pour accéder à votre espace personnel
         </h2>
+        @if($errors->has('api'))
+            <div class="text-red-500">
+                {{ $errors->first('api') }}
+            </div>
+        @endif
         <div class="bg-white p-6 rounded-2xl shadow-md">
             <form method="POST" action="{{ route('register') }}" class="space-y-5">
                 @csrf

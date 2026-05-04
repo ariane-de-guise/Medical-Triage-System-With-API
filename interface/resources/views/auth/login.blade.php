@@ -4,13 +4,9 @@
             Re-bienvenue !
         </h2>
         <div class="bg-white p-6 rounded-2xl shadow-md">
-            @if ($errors->any())
-                <div class="mb-4 p-3 bg-red-100 text-red-600 rounded-xl">
-                    <ul class="text-sm">
-                        @foreach ($errors->all() as $error)
-                            <li>• {{ $error }}</li>
-                        @endforeach
-                    </ul>
+            @if($errors->has('api'))
+                <div class="text-red-500">
+                    {{ $errors->first('api') }}
                 </div>
             @endif
             <form method="POST" action="{{ route('login') }}" class="space-y-5">

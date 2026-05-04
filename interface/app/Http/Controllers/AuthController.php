@@ -62,26 +62,20 @@ class AuthController extends Controller
      */
     public function sendLoginRequest(Request $request)
     {
-        // Validate first (important)
-        $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
-
         $response = Http::post('http://host.docker.internal:81/api/login', [
             'email' => $request->email,
             'password' => $request->password,
         ]);
 
-        $user = $response['user'] ?? null;
-
-        if ($response->failed() || !$user) {
-            return back()
+        if ($response->failed()) {
+            return redirect()->back()
+                ->withInput()
                 ->withErrors([
-                    'email' => 'Identifiants invalides',
-                ])
-                ->withInput();
+                    'api' => $response->json()['message'] ?? 'Une erreur est survenue.'
+                ]);
         }
+
+        $user = $response['user'] ?? null;
 
         session([
             'user' => $user,
@@ -137,11 +131,11 @@ class AuthController extends Controller
         ]);
 
         if ($response->failed()) {
-            $errors = $response->json()['errors'] ?? ['error' => ['Une erreur est survenue']];
-
-            return back()
-                ->withErrors($errors)
-                ->withInput();
+            return redirect()->back()
+                ->withInput()
+                ->withErrors([
+                    'api' => $response->json()['message'] ?? 'Une erreur est survenue.'
+                ]);
         }
 
         return redirect()->route('login')
